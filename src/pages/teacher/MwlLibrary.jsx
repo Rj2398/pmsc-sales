@@ -53,7 +53,7 @@ const MwlLibrary = () => {
               <div className="my-subjects-head">
                 <h3>Courses</h3>
               </div>
-              <div className="manage-sub-grid for-teacher">
+              {/* <div className="manage-sub-grid for-teacher">
                 {categoriesList?.map((item, index) => (
                   <div
                     className="manage-sub-item sub-lessons-list-in mb-0"
@@ -64,15 +64,6 @@ const MwlLibrary = () => {
                     </div>
                     <div className="manage-sub-cta">
                       <Link
-                        // to={
-                        //   item?.key == "subjects"
-                        //     ? "/teacher/mwl-micro-credentials-domain-training"
-                        //     : item?.key == "lesson-content"
-                        //     ? "/teacher/mwl-parent-training"
-                        //     : item.key == "pdf"
-                        //     ? item?.link
-                        //     : "/teacher/mwl-micro-credentials-domain-training"
-                        // }
                         to={
                           item?.name ===
                             "Micro-Credentials & Domain Training" ||
@@ -95,6 +86,44 @@ const MwlLibrary = () => {
                     </div>
                   </div>
                 ))}
+              </div> */}
+
+              <div className="manage-sub-grid for-teacher">
+                {categoriesList
+                  // 1. Filter out the unwanted name first
+                  ?.filter(
+                    (item) => item?.name !== "Scope & Sequence - Emerald Level"
+                  )
+                  // 2. Map the remaining items
+                  ?.map((item, index) => (
+                    <div
+                      className="manage-sub-item sub-lessons-list-in mb-0"
+                      key={index}
+                    >
+                      <div className="manage-sub-data">
+                        <h4 className="mb-0">{item?.name}</h4>
+                      </div>
+                      <div className="manage-sub-cta">
+                        <Link
+                          to={
+                            item?.name === "Lesson Prep"
+                              ? "/teacher/mwl-training"
+                              : item?.name === "Parent Training"
+                              ? "/teacher/mwl-parent-training"
+                              : item?.name === "Onboarding"
+                              ? "/teacher/onboarding"
+                              : item.key === "pdf"
+                              ? item?.link
+                              : "/teacher/mwl-training"
+                          }
+                          target={item?.key === "pdf" ? "_blank" : "_self"}
+                          state={{ mwlId: item?.id, name: item?.name }}
+                        >
+                          View Course
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
