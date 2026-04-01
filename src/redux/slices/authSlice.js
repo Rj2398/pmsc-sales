@@ -1,32 +1,42 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as api from "../api.js";
 import toast from "react-hot-toast";
- 
+
 // Load stored user from localStorage
 const storedUser = JSON.parse(localStorage.getItem("pmsc"));
- 
+
 // Async thunk for sign-in
-export const signIn = createAsyncThunk("/student/signIn",async (formData, { rejectWithValue }) => {
+export const signIn = createAsyncThunk(
+  "/student/signIn",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await api.signIn(formData);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(
+        error.response?.data || { message: error.message }
+      );
     }
   }
 );
- 
-export const logout = createAsyncThunk("/student/logout",async (_, { rejectWithValue }) => {
+
+export const logout = createAsyncThunk(
+  "/student/logout",
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api.logout();
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: error.message });
+      return rejectWithValue(
+        error.response?.data || { message: error.message }
+      );
     }
   }
 );
-  
-export const getMyDetails = createAsyncThunk("/anything/clever",async (formData, { rejectWithValue }) => {
+
+export const getMyDetails = createAsyncThunk(
+  "/anything/clever",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await api.getMyDetails(formData);
       return response.data;
@@ -38,7 +48,9 @@ export const getMyDetails = createAsyncThunk("/anything/clever",async (formData,
   }
 );
 
-export const getTermsCondition = createAsyncThunk("/anything/getTermsCondition",async (formData, { rejectWithValue }) => {
+export const getTermsCondition = createAsyncThunk(
+  "/anything/getTermsCondition",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await api.getTermsCondition(formData);
       return response.data;
@@ -50,7 +62,9 @@ export const getTermsCondition = createAsyncThunk("/anything/getTermsCondition",
   }
 );
 
-export const getPrivacyPolicy = createAsyncThunk("/anything/getPrivacyPolicy",async (formData, { rejectWithValue }) => {
+export const getPrivacyPolicy = createAsyncThunk(
+  "/anything/getPrivacyPolicy",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await api.getPrivacyPolicy(formData);
       return response.data;
@@ -62,7 +76,9 @@ export const getPrivacyPolicy = createAsyncThunk("/anything/getPrivacyPolicy",as
   }
 );
 
-export const getReportDownloadData = createAsyncThunk("/anything/getReportDownloadData",async (formData, { rejectWithValue }) => {
+export const getReportDownloadData = createAsyncThunk(
+  "/anything/getReportDownloadData",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await api.getReportDownloadData(formData);
       return response.data;
@@ -74,7 +90,9 @@ export const getReportDownloadData = createAsyncThunk("/anything/getReportDownlo
   }
 );
 
-export const getEarnedCertificate = createAsyncThunk("/anything/getEarnedCertificate",async (formData, { rejectWithValue }) => {
+export const getEarnedCertificate = createAsyncThunk(
+  "/anything/getEarnedCertificate",
+  async (formData, { rejectWithValue }) => {
     try {
       const response = await api.getEarnedCertificate(formData);
       return response.data;
@@ -85,7 +103,7 @@ export const getEarnedCertificate = createAsyncThunk("/anything/getEarnedCertifi
     }
   }
 );
- 
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -115,24 +133,26 @@ const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload?.user
+        state.user = action.payload?.user;
         state.isAuthenticated = true;
         localStorage.setItem("pmsc", JSON.stringify(action.payload?.user));
-        localStorage.setItem("classLevel", (action.payload?.user?.level_id || 1));
+        localStorage.setItem("classLevel", action.payload?.user?.level_id || 2);
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading = false;
-        toast.error(action.payload?.message || "Login failed. Please try again.");
+        toast.error(
+          action.payload?.message || "Login failed. Please try again."
+        );
         state.error = action.payload?.message || "Failed to sign in.";
       })
- 
+
       .addCase(logout.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = null
+        state.user = null;
         state.isAuthenticated = false;
         toast.success("Logout Successfully...");
         localStorage.removeItem("pmsc");
@@ -143,16 +163,16 @@ const authSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
-        state.user = null
+        state.user = null;
         state.isAuthenticated = false;
         toast.success("Logout Successfully...");
         localStorage.removeItem("pmsc");
         localStorage.removeItem("classLevel");
- 
+
         setTimeout(() => {
           window.location.href = "/";
         }, 1000);
-      }) 
+      })
 
       .addCase(getMyDetails.pending, (state) => {
         state.loading = true;
@@ -162,15 +182,15 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload?.user;
         state.isAuthenticated = true;
-        if(action.payload?.user?.read_status == 0){
+        if (action.payload?.user?.read_status == 0) {
           state.isAlreadyVisited = true;
-        } else{
+        } else {
           state.isAlreadyVisited = false;
         }
         localStorage.setItem("pmsc", JSON.stringify(action.payload?.user));
-        localStorage.setItem("classLevel", (action.payload?.user?.level_id || 1));
+        localStorage.setItem("classLevel", action.payload?.user?.level_id || 2);
       })
- 
+
       .addCase(getMyDetails.rejected, (state, action) => {
         state.loading = false;
         toast.error(
@@ -185,7 +205,7 @@ const authSlice = createSlice({
       })
       .addCase(getTermsCondition.fulfilled, (state, action) => {
         state.loading = false;
-        state.termsData = action.payload?.data
+        state.termsData = action.payload?.data;
       })
       .addCase(getTermsCondition.rejected, (state, action) => {
         state.loading = false;
@@ -197,7 +217,7 @@ const authSlice = createSlice({
       })
       .addCase(getPrivacyPolicy.fulfilled, (state, action) => {
         state.loading = false;
-        state.privacyData = action.payload?.data
+        state.privacyData = action.payload?.data;
       })
       .addCase(getPrivacyPolicy.rejected, (state, action) => {
         state.loading = false;
@@ -225,9 +245,9 @@ const authSlice = createSlice({
       })
       .addCase(getEarnedCertificate.rejected, (state, action) => {
         state.loading = false;
-      })
+      });
   },
 });
- 
+
 export const { login } = authSlice.actions;
 export default authSlice.reducer;

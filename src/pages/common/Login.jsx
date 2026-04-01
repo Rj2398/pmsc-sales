@@ -1,16 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { signIn } from '../../redux/slices/authSlice'; // optional for real sign-in
-import { Link, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button, Card, Form } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../../redux/slices/authSlice"; // optional for real sign-in
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Card,
+  Form,
+  InputGroup,
+} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated, user, error } = useSelector((state) => state.auth);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,17 +69,41 @@ const Login = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group controlId="formPassword" className="mb-4">
+                  <Form.Group controlId="formPassword" excited className="mb-4">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+                    {/* MODIFICATION STARTS HERE */}
+                    <InputGroup>
+                      <Form.Control
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        style={{ borderRight: "none" }} // Clean merge with icon
+                      />
+                      <InputGroup.Text
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          borderLeft: "none",
+                        }}
+                      >
+                        {!showPassword ? (
+                          <EyeOff size={20} className="text-muted" />
+                        ) : (
+                          <Eye size={20} className="text-muted" />
+                        )}
+                      </InputGroup.Text>
+                    </InputGroup>
+                    {/* MODIFICATION ENDS HERE */}
                   </Form.Group>
-                  {error && <div className="text-danger mb-3 d-flex justify-content-center">{error}</div>}
+
+                  {error && (
+                    <div className="text-danger mb-3 d-flex justify-content-center">
+                      {error}
+                    </div>
+                  )}
                   <div className="d-grid">
                     <Button variant="primary" type="submit" size="lg">
                       Login
@@ -162,13 +196,13 @@ export default Login;
 
 //   useEffect(() => {
 //     if (isAuthenticated && user?.role) {
-      
+
 //       if(isAlreadyVisited){
 //         setShowModal(true); // Show the modal instead of navigating immediately
 //       } else if(!isAlreadyVisited && isAlreadyVisited !== null){
 //         navigate(`/${user.role?.replace("_", "-")}/dashboard`);
 //       }
-      
+
 //       switch (user.role) {
 //         case "teacher":
 //           document.title = "PMSC Teacher Panel";
@@ -192,7 +226,7 @@ export default Login;
 //           <span className="visually-hidden">Loading...</span>
 //         </div>
 //         <div className="mt-4">
-//           <p className="text-secondary small"> 
+//           <p className="text-secondary small">
 //             If you are not redirected automatically, click the button below:
 //           </p>
 //           <button onClick={redirectToClever} className="btn btn-primary btn-lg mt-2" >
@@ -220,7 +254,7 @@ export default Login;
 //               lineHeight: "1.5",
 //               color: "#333",
 //             }} >
-//             <strong> 
+//             <strong>
 //               These are NOT the full Terms & Conditions. You must read and
 //               accept the complete agreement before using Holpentech's services.
 //               Below is a short recap of key rules unique to our platform:
@@ -290,7 +324,7 @@ export default Login;
 //                   .
 //                 </span>
 //               }
-             
+
 //             />
 //           </Form.Group>
 //           {validationError && (<p className="text-danger mt-2">{validationError}</p>)}
