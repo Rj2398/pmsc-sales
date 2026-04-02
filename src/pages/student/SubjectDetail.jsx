@@ -1,7 +1,11 @@
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLessionSlice, startLession, startQuiz, } from "../../redux/slices/student/lessionSlice";
+import {
+  getLessionSlice,
+  startLession,
+  startQuiz,
+} from "../../redux/slices/student/lessionSlice";
 import { setCurrentSubject } from "../../redux/slices/student/subjectSlice";
 
 const SubjectDetail = () => {
@@ -135,16 +139,34 @@ const SubjectDetail = () => {
                 src="/images/subject-detail/sub-lessons/completed.svg"
                 alt=""
               /> */}
-              <img src={`/images/subject-detail/sub-lessons/${storeAllLession?.storeAllLession?.baseline_test?.status == "locked" || storeAllLession?.storeAllLession?.baseline_test?.status == "not_started" ? "locked-not-started" : storeAllLession?.storeAllLession?.baseline_test?.status == "completed" ? "completed" : "in-progress" }.svg`} alt={"Baseline Assessment"}
+              <img
+                src={`/images/subject-detail/sub-lessons/${
+                  storeAllLession?.storeAllLession?.baseline_test?.status ==
+                    "locked" ||
+                  storeAllLession?.storeAllLession?.baseline_test?.status ==
+                    "not_started"
+                    ? "locked-not-started"
+                    : storeAllLession?.storeAllLession?.baseline_test?.status ==
+                      "completed"
+                    ? "completed"
+                    : "in-progress"
+                }.svg`}
+                alt={"Baseline Assessment"}
               />
             </div>
             <div className="lesson-data">
               <h2>
-                {storeAllLession?.storeAllLession?.baseline_test?.subject_name} - Baseline Assessment
-                {storeAllLession?.storeAllLession?.baseline_test?.status == "not_started" ||
+                {storeAllLession?.storeAllLession?.baseline_test?.subject_name}{" "}
+                - Baseline Assessment
+                {storeAllLession?.storeAllLession?.baseline_test?.status ==
+                  "not_started" ||
                   ("locked" && (
-                    <button type="button" className={showBaslineModal ? "active" : ""} onClick={() => setShowBaselineModal(!showBaslineModal)} >
-                      <i className="fa-regular fa-angle-down"></i>
+                    <button
+                      type="button"
+                      className={showBaslineModal ? "active" : ""}
+                      onClick={() => setShowBaselineModal(!showBaslineModal)}
+                    >
+                      <i className="fa-solid fa-angle-down"></i>
                     </button>
                   ))}
               </h2>
@@ -153,29 +175,55 @@ const SubjectDetail = () => {
               </p>
             </div>
             <div className="sub-lessons-list-in-ryt">
-              <div className={`status ${["not_started", "locked", ""].includes(storeAllLession?.storeAllLession?.baseline_test?.status) && "inactive"} ${["not_completed", "in_progress","retake"].includes(storeAllLession?.storeAllLession?.baseline_test?.status) && "review"}`}>
-                  {storeAllLession?.storeAllLession?.baseline_test?.status?.replace(/_/g, " ")?.replace(/\b\w/g, (char) => char.toUpperCase()) || "Not Started"}
+              <div
+                className={`status ${
+                  ["not_started", "locked", ""].includes(
+                    storeAllLession?.storeAllLession?.baseline_test?.status
+                  ) && "inactive"
+                } ${
+                  ["not_completed", "in_progress", "retake"].includes(
+                    storeAllLession?.storeAllLession?.baseline_test?.status
+                  ) && "review"
+                }`}
+              >
+                {storeAllLession?.storeAllLession?.baseline_test?.status
+                  ?.replace(/_/g, " ")
+                  ?.replace(/\b\w/g, (char) => char.toUpperCase()) ||
+                  "Not Started"}
               </div>
               <span>&nbsp;</span>
             </div>
           </div>
 
           {/* Assessment Answers */}
-          <div className="baseline-ass-q-a drop-list" style={{ display: showBaslineModal ? "block" : "none" }} >
+          <div
+            className="baseline-ass-q-a drop-list"
+            style={{ display: showBaslineModal ? "block" : "none" }}
+          >
             <h2>
-              <img src="/images/dashboard/earned-certificates/earned-certi.svg" alt="earned certificate" />
+              <img
+                src="/images/dashboard/earned-certificates/earned-certi.svg"
+                alt="earned certificate"
+              />
               Submitted assessment answers
             </h2>
 
-            {storeAllLession?.storeAllLession?.baseline_test?.answers && storeAllLession.storeAllLession.baseline_test.answers.length > 0 ? (
+            {storeAllLession?.storeAllLession?.baseline_test?.answers &&
+            storeAllLession.storeAllLession.baseline_test.answers.length > 0 ? (
               storeAllLession.storeAllLession.baseline_test.answers.map(
                 (answer, index) => (
                   <div className="asse-complete-q-a" key={index}>
-                    <h4> Question {index + 1}: {answer.question} </h4>
+                    <h4>
+                      {" "}
+                      Question {index + 1}: {answer.question}{" "}
+                    </h4>
                     {answer.selected_option ? (
                       <p className="ps-0 d-flex gap-2 justify-content-start">
                         <span>Your Answer</span>
-                        <img src="/images/baseline-assessment/radio-icon.svg" alt="icon" />
+                        <img
+                          src="/images/baseline-assessment/radio-icon.svg"
+                          alt="icon"
+                        />
                         {answer.selected_option}
                       </p>
                     ) : (
@@ -187,7 +235,10 @@ const SubjectDetail = () => {
                 )
               )
             ) : (
-              <p>  No data found or no answers submitted for the baseline test. </p>
+              <p>
+                {" "}
+                No data found or no answers submitted for the baseline test.{" "}
+              </p>
             )}
           </div>
         </div>
@@ -197,34 +248,62 @@ const SubjectDetail = () => {
           <h3>Lessons</h3>
           {lessonMap && lessonMap.length > 0 ? (
             lessonMap?.map((lesson, index) => (
-              <div className="sub-lessons-list-in" key={lesson?.id}
-                style={{ pointerEvents: lesson?.status === "locked" ? "none" : "auto",
+              <div
+                className="sub-lessons-list-in"
+                key={lesson?.id}
+                style={{
+                  pointerEvents: lesson?.status === "locked" ? "none" : "auto",
                   opacity: lesson?.status === "locked" ? 1 : 1,
-                  cursor: lesson?.status === "locked" ? "not-allowed" : "pointer",
-                }} >
+                  cursor:
+                    lesson?.status === "locked" ? "not-allowed" : "pointer",
+                }}
+              >
                 <div className="lesson-num-ico">
                   <span>{index + 1}</span>
-                  <img src={`/images/subject-detail/sub-lessons/${lesson?.status == "not_started" ? "locked-not-started" : lesson?.status == "completed" ? "completed" : lesson?.status == "locked" ? "locked-not-started" : "in-progress" }.svg`}
+                  <img
+                    src={`/images/subject-detail/sub-lessons/${
+                      lesson?.status == "not_started"
+                        ? "locked-not-started"
+                        : lesson?.status == "completed"
+                        ? "completed"
+                        : lesson?.status == "locked"
+                        ? "locked-not-started"
+                        : "in-progress"
+                    }.svg`}
                     alt={lesson?.status}
                   />
                 </div>
                 <div className="lesson-data">
                   <h2>
-                    <Link to="#" onClick={() =>
+                    <Link
+                      to="#"
+                      onClick={() =>
                         handleStartLesson(
                           lesson?.id,
                           lesson?.subject_id,
                           lesson?.status
                         )
-                      } >
+                      }
+                    >
                       {lesson?.title}
                     </Link>
                   </h2>
                   <p>{lesson?.desc}</p>
                 </div>
                 <div className="sub-lessons-list-in-ryt">
-                  <div className={`status ${["not_started", "locked", ""].includes(lesson?.status) && "inactive"} ${["not_completed", "in_progress","retake"].includes(lesson?.status) && "review"}`} >
-                    {lesson?.status?.replace(/_/g, " ")?.replace(/\b\w/g, (char) => char.toUpperCase())}
+                  <div
+                    className={`status ${
+                      ["not_started", "locked", ""].includes(lesson?.status) &&
+                      "inactive"
+                    } ${
+                      ["not_completed", "in_progress", "retake"].includes(
+                        lesson?.status
+                      ) && "review"
+                    }`}
+                  >
+                    {lesson?.status
+                      ?.replace(/_/g, " ")
+                      ?.replace(/\b\w/g, (char) => char.toUpperCase())}
                   </div>
                   <span>
                     <i className="fa-light fa-clock"></i> {lesson?.duration}
@@ -245,25 +324,48 @@ const SubjectDetail = () => {
           <div className="sub-lessons-list-in drop-btn">
             <div className="lesson-num-ico">
               <span></span>
-              <img src={`/images/subject-detail/sub-lessons/${storeAllLession?.storeAllLession?.summative_test?.status == "locked" ? "locked-not-started" : storeAllLession?.storeAllLession?.summative_test ?.status == "completed" ? "completed" : storeAllLession?.storeAllLession?.summative_test ?.status == "not_started" ? "locked-not-started" : "in-progress" }.svg`}
+              <img
+                src={`/images/subject-detail/sub-lessons/${
+                  storeAllLession?.storeAllLession?.summative_test?.status ==
+                  "locked"
+                    ? "locked-not-started"
+                    : storeAllLession?.storeAllLession?.summative_test
+                        ?.status == "completed"
+                    ? "completed"
+                    : storeAllLession?.storeAllLession?.summative_test
+                        ?.status == "not_started"
+                    ? "locked-not-started"
+                    : "in-progress"
+                }.svg`}
                 alt="lesson icon"
               />
             </div>
             <div className="lesson-data">
-              <h2 style={{ cursor: "pointer" }} onClick={() =>
-                  storeAllLession?.storeAllLession?.summative_test?.status != "locked" &&
-                  storeAllLession?.storeAllLession?.summative_test?.status != "completed" &&
-                  navigate(`/student/summative-assessment/${subjectId}`,{ state: { subjectId: subjectId }})}
-                >
-                {storeAllLession?.storeAllLession?.summative_test?.subject_name} - Summative Assessment
+              <h2
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  storeAllLession?.storeAllLession?.summative_test?.status !=
+                    "locked" &&
+                  storeAllLession?.storeAllLession?.summative_test?.status !=
+                    "completed" &&
+                  navigate(`/student/summative-assessment/${subjectId}`, {
+                    state: { subjectId: subjectId },
+                  })
+                }
+              >
+                {storeAllLession?.storeAllLession?.summative_test?.subject_name}{" "}
+                - Summative Assessment
                 {storeAllLession?.storeAllLession?.summative_test?.status ===
                   "completed" && (
-                  <button type="button" className={showSubmittiveModal ? "active" : ""}
+                  <button
+                    type="button"
+                    className={showSubmittiveModal ? "active" : ""}
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowSubmittiveModal(!showSubmittiveModal);
-                    }} >
-                    <i className="fa-regular fa-angle-down"></i>
+                    }}
+                  >
+                    <i className="fa-solid fa-angle-down"></i>
                   </button>
                 )}
               </h2>
@@ -275,26 +377,47 @@ const SubjectDetail = () => {
               "retake" && (
               <div className="start-quiz-cta">
                 <Link
-                  to={`/student/summative-assessment/${subjectId}`
+                  to={
+                    `/student/summative-assessment/${subjectId}`
                     // storeAllLession?.storeAllLession?.summative_test?.quizLink
-                  } state={{ subjectId: subjectId, isRetake: 1 }}
+                  }
+                  state={{ subjectId: subjectId, isRetake: 1 }}
                 >
                   Start Quiz
                 </Link>
               </div>
             )}
             <div className="sub-lessons-list-in-ryt">
-              <div className={`status ${["not_started", "locked", ""].includes(storeAllLession?.storeAllLession?.summative_test?.status) && "inactive"} ${["not_completed", "in_progress","retake"].includes(storeAllLession?.storeAllLession?.summative_test?.status) && "review"}`}>
-                {storeAllLession?.storeAllLession?.summative_test?.status?.replace(/_/g, " ")?.replace(/\b\w/g, (char) => char.toUpperCase()) || "Not Started"}
+              <div
+                className={`status ${
+                  ["not_started", "locked", ""].includes(
+                    storeAllLession?.storeAllLession?.summative_test?.status
+                  ) && "inactive"
+                } ${
+                  ["not_completed", "in_progress", "retake"].includes(
+                    storeAllLession?.storeAllLession?.summative_test?.status
+                  ) && "review"
+                }`}
+              >
+                {storeAllLession?.storeAllLession?.summative_test?.status
+                  ?.replace(/_/g, " ")
+                  ?.replace(/\b\w/g, (char) => char.toUpperCase()) ||
+                  "Not Started"}
               </div>
               <span>&nbsp;</span>
             </div>
           </div>
 
           {/* Summative Answers */}
-          <div className="baseline-ass-q-a drop-list" style={{ display: showSubmittiveModal ? "block" : "none" }}>
+          <div
+            className="baseline-ass-q-a drop-list"
+            style={{ display: showSubmittiveModal ? "block" : "none" }}
+          >
             <h2>
-              <img src="/images/dashboard/earned-certificates/earned-certi.svg" alt="earned certificate" />
+              <img
+                src="/images/dashboard/earned-certificates/earned-certi.svg"
+                alt="earned certificate"
+              />
               Submitted assessment answers
             </h2>
 
@@ -323,7 +446,10 @@ const SubjectDetail = () => {
                 )
               )
             ) : (
-              <p> No data found or no answers submitted for the summative test. </p>
+              <p>
+                {" "}
+                No data found or no answers submitted for the summative test.{" "}
+              </p>
             )}
           </div>
         </div>

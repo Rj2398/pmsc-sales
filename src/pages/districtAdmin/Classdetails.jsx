@@ -216,7 +216,7 @@ const Classdetails = () => {
             >
               All Subjects{" "}
               <i
-                className={`fa-regular ${
+                className={`fa-solid ${
                   activeDropdown === "courseDropdown"
                     ? "fa-angle-up"
                     : "fa-angle-down"

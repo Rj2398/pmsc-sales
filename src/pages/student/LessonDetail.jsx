@@ -1417,7 +1417,7 @@ const LessonDetail = () => {
                   backgroundColor: "#4126A8", color: "white", width: "160px", height: "40px",
                   borderRadius: "10px", justifyContent: "space-around", alignItems: "center",
                   display: "flex", opacity: 0.8, }} >
-                Finish Lesson<i className="fa-regular fa-arrow-right"></i>
+                Finish Lesson<i className="fa-solid fa-arrow-right"></i>
               </span> */}
             </>
           ) : (
@@ -1426,7 +1426,7 @@ const LessonDetail = () => {
               onClick={handleOpenPopup}
               className="next-cta"
             >
-              Finish Lesson <i className="fa-regular fa-arrow-right"></i>
+              Finish Lesson <i className="fa-solid fa-arrow-right"></i>
             </Link>
           )}
         </div>
@@ -2853,7 +2853,7 @@ const MultipleSelectOption = ({
 //                 opacity: 0.8,
 //               }}
 //             >
-//              Finish Lesson<i className="fa-regular fa-arrow-right"></i>
+//              Finish Lesson<i className="fa-solid fa-arrow-right"></i>
 //             </span>
 //           ) : (
 //             <Link
@@ -2861,7 +2861,7 @@ const MultipleSelectOption = ({
 //               onClick={handleOpenPopup}
 //               className="next-cta"
 //             >
-//               Finish Lesson <i className="fa-regular fa-arrow-right"></i>
+//               Finish Lesson <i className="fa-solid fa-arrow-right"></i>
 //             </Link>
 //           )}
 //         </div>

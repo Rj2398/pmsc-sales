@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllSubject, getUserProgress, subjectWiseProgress, subjectWiseQuizProgress, } from "../../redux/slices/student/subjectSlice";
+import {
+  getAllSubject,
+  getUserProgress,
+  subjectWiseProgress,
+  subjectWiseQuizProgress,
+} from "../../redux/slices/student/subjectSlice";
 import { Link, useNavigate } from "react-router";
 import Select from "react-select";
 
@@ -8,7 +13,8 @@ const ProgressAndScore = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { allSubject, progressInfo, subjectWiseInfo, subjectWiseQuizInfo } = useSelector((state) => state.subject);
+  const { allSubject, progressInfo, subjectWiseInfo, subjectWiseQuizInfo } =
+    useSelector((state) => state.subject);
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [selectedProgressSubject, setSelectedProgressSubject] = useState(null);
   const [showLession, setShowLession] = useState(false);
@@ -19,14 +25,24 @@ const ProgressAndScore = () => {
 
   useEffect(() => {
     if (selectedSubject) {
-      dispatch(getUserProgress(selectedSubject === "all" ? {} : { subject_id: selectedSubject }));
-      dispatch(subjectWiseProgress(selectedSubject === "all" ? {} : { subject_id: selectedSubject }));
+      dispatch(
+        getUserProgress(
+          selectedSubject === "all" ? {} : { subject_id: selectedSubject }
+        )
+      );
+      dispatch(
+        subjectWiseProgress(
+          selectedSubject === "all" ? {} : { subject_id: selectedSubject }
+        )
+      );
     }
   }, [selectedSubject]);
 
   useEffect(() => {
     if (selectedProgressSubject) {
-      dispatch(subjectWiseQuizProgress({ subject_id: selectedProgressSubject }));
+      dispatch(
+        subjectWiseQuizProgress({ subject_id: selectedProgressSubject })
+      );
     }
   }, [selectedProgressSubject]);
 
@@ -76,35 +92,40 @@ const ProgressAndScore = () => {
           <h1> Completion </h1>
           {/* <p className="top-head-p">Your Progress</p> */}
         </div>
-        <Select name="subject" placeholder="Select a subject..." isSearchable={false}
+        <Select
+          name="subject"
+          placeholder="Select a subject..."
+          isSearchable={false}
           options={[
-            { value: 'all', label: 'All Subjects' },
-            ...(allSubject?.map(item => ({
+            { value: "all", label: "All Subjects" },
+            ...(allSubject?.map((item) => ({
               value: item.id,
-              label: item.name
-            })) || [])
+              label: item.name,
+            })) || []),
           ]}
-          onChange={(selectedOption) => setSelectedSubject(selectedOption.value)}
-          defaultValue={{ value: 'all', label: 'All Subjects' }}
+          onChange={(selectedOption) =>
+            setSelectedSubject(selectedOption.value)
+          }
+          defaultValue={{ value: "all", label: "All Subjects" }}
           styles={{
             control: (base) => ({
               ...base,
-              minHeight: '38px',
-              fontSize:"16px",
+              minHeight: "38px",
+              fontSize: "16px",
               width: "260px",
-              borderColor:"#4126A8",
-              boxShadow: 'none',
-              '&:hover': {
-                borderColor: '#4126A8'
-              }
+              borderColor: "#4126A8",
+              boxShadow: "none",
+              "&:hover": {
+                borderColor: "#4126A8",
+              },
             }),
             option: (base, state) => ({
               ...base,
-              backgroundColor: state.isFocused ? '#4126A8' : 'white',
-              color: state.isFocused ? 'white' : '#333',
-              '&:active': {
-                  backgroundColor: '#4126A8'
-              }
+              backgroundColor: state.isFocused ? "#4126A8" : "white",
+              color: state.isFocused ? "white" : "#333",
+              "&:active": {
+                backgroundColor: "#4126A8",
+              },
             }),
           }}
         />
@@ -114,8 +135,7 @@ const ProgressAndScore = () => {
           <div className="col-lg-3">
             <div className="progress-grid-in ms-0">
               <h2>
-                <img src="/images/Overlay.svg" alt="" />{" "}
-                Baseline Assessment
+                <img src="/images/Overlay.svg" alt="" /> Baseline Assessment
               </h2>
               <h3>{progressInfo?.baseline_assessments?.percentage}%</h3>
               {/* <p className="text-white"> {progressInfo?.baseline_assessments?.completed}/{progressInfo?.baseline_assessments?.total} Completed </p> */}
@@ -128,7 +148,7 @@ const ProgressAndScore = () => {
                 Lesson Quizzes
               </h2>
               <h3>{progressInfo?.lesson_quiz_progress?.percentage}%</h3>
-              {/* <!-- <a href="#">See details <i className="fa-regular fa-arrow-right"></i></a> --> */}
+              {/* <!-- <a href="#">See details <i className="fa-solid fa-arrow-right"></i></a> --> */}
               {/* <p className="text-black">{progressInfo?.lesson_quiz_progress?.completed}/{progressInfo?.lesson_quiz_progress?.total} Completed</p> */}
             </div>
           </div>
@@ -163,71 +183,117 @@ const ProgressAndScore = () => {
         <div className="row">
           <div className="col-lg-12">
             <h3 className="my-subject-heading"> Scores </h3>
-            <div className="my-subjects" style={{marginTop:"0"}}>
+            <div className="my-subjects" style={{ marginTop: "0" }}>
               <div className="my-subjects-head mb-4">
-                <h3 style={{fontWeight:"700"}}>
-                  <img src="/images/dashboard/chart-icon.svg" alt="chart-icon" /> Subject Performance </h3>
+                <h3 style={{ fontWeight: "700" }}>
+                  <img
+                    src="/images/dashboard/chart-icon.svg"
+                    alt="chart-icon"
+                  />{" "}
+                  Subject Performance{" "}
+                </h3>
               </div>
               <div className="chart-wrap">
                 <div className="chart-in">
                   <p className="performance-text">Score</p>
                   <div className="chart-in-percent-grp">
-                    {["100%", "80%", "60%", "40%", "20%", "0"].map((val, idx) => (
-                      <div
-                        className={`chart-in-percent ${
-                          val === 0 ? "align-items-end" : ""
-                        }`}
-                        key={idx}
-                      >
-                        <span>{val}</span>
-                        <hr
-                          style={val === 0 ? { width: "95%" } : {}}
-                          className={val === 0 ? "ms-auto" : ""}
-                        />
-                      </div>
-                    ))}
+                    {["100%", "80%", "60%", "40%", "20%", "0"].map(
+                      (val, idx) => (
+                        <div
+                          className={`chart-in-percent ${
+                            val === 0 ? "align-items-end" : ""
+                          }`}
+                          key={idx}
+                        >
+                          <span>{val}</span>
+                          <hr
+                            style={val === 0 ? { width: "95%" } : {}}
+                            className={val === 0 ? "ms-auto" : ""}
+                          />
+                        </div>
+                      )
+                    )}
 
                     <div className="chart-bar-grp">
                       {subjectWiseInfo?.map((subject, idx) => {
                         const defaultColor = colors[idx % colors.length]; // default color if no match found
-                        const subjectColor = colors.find(color => color.label === subject.subject_name);
-                        
-                        const baselineColor = subjectColor ? subjectColor.base : defaultColor.base;
-                        const lessonColor = subjectColor ? subjectColor.lesson : defaultColor.lesson;
-                        const summativeColor = subjectColor ? subjectColor.summative : defaultColor.summative;
+                        const subjectColor = colors.find(
+                          (color) => color.label === subject.subject_name
+                        );
 
-                        const baseline = parseFloat(subject.baseline_score || 0);
+                        const baselineColor = subjectColor
+                          ? subjectColor.base
+                          : defaultColor.base;
+                        const lessonColor = subjectColor
+                          ? subjectColor.lesson
+                          : defaultColor.lesson;
+                        const summativeColor = subjectColor
+                          ? subjectColor.summative
+                          : defaultColor.summative;
+
+                        const baseline = parseFloat(
+                          subject.baseline_score || 0
+                        );
                         const lesson = parseFloat(subject.lesson_score || 0);
-                        const summative = parseFloat(subject.summative_score || 0);
+                        const summative = parseFloat(
+                          subject.summative_score || 0
+                        );
 
                         return (
-                          <div className="chart-bar-in" key={subject.subject_id} >
+                          <div
+                            className="chart-bar-in"
+                            key={subject.subject_id}
+                          >
                             <div className="hover-data">
                               <div className="hover-data-in">
                                 <p>
-                                  <span style={{ backgroundColor: baselineColor, }} ></span>{" "}
+                                  <span
+                                    style={{ backgroundColor: baselineColor }}
+                                  ></span>{" "}
                                   Baseline Assessment, {baseline}%
                                 </p>
                                 <p>
-                                  <span style={{ backgroundColor: lessonColor, }} ></span>{" "}
+                                  <span
+                                    style={{ backgroundColor: lessonColor }}
+                                  ></span>{" "}
                                   Lesson Quizzes, {lesson}%
                                 </p>
                                 <p>
-                                  <span style= {{ backgroundColor: summativeColor, }} ></span>{" "}
+                                  <span
+                                    style={{ backgroundColor: summativeColor }}
+                                  ></span>{" "}
                                   Summative Assessment, {summative}%
                                 </p>
                               </div>
                             </div>
                             <div className="bar-wrp">
-                              <div className="bar" style={{ backgroundColor: baselineColor, height: `${baseline}%`, }} ></div>
+                              <div
+                                className="bar"
+                                style={{
+                                  backgroundColor: baselineColor,
+                                  height: `${baseline}%`,
+                                }}
+                              ></div>
                               <span>B</span>
                             </div>
                             <div className="bar-wrp">
-                              <div className="bar" style={{ backgroundColor: lessonColor, height: `${lesson}%`, }} ></div>
+                              <div
+                                className="bar"
+                                style={{
+                                  backgroundColor: lessonColor,
+                                  height: `${lesson}%`,
+                                }}
+                              ></div>
                               <span>L</span>
                             </div>
                             <div className="bar-wrp">
-                              <div className="bar" style={{ backgroundColor: summativeColor, height: `${summative}%`, }} ></div>
+                              <div
+                                className="bar"
+                                style={{
+                                  backgroundColor: summativeColor,
+                                  height: `${summative}%`,
+                                }}
+                              ></div>
                               <span>S</span>
                             </div>
                           </div>
@@ -241,14 +307,19 @@ const ProgressAndScore = () => {
                 <ul>
                   {subjectWiseInfo?.map((subject, idx) => {
                     const defaultColor = colors[idx % colors.length]; // default color if no match found
-                    const subjectColor = colors.find(color => color.label === subject.subject_name);
-                    const baselineColor = subjectColor ? subjectColor.base : defaultColor.base;
-                    return(
-                    <li key={subject.subject_id}>
-                      <span style={{ backgroundColor: baselineColor }} ></span>{" "}
-                      {subject.subject_name}
-                    </li>
-                  )})}
+                    const subjectColor = colors.find(
+                      (color) => color.label === subject.subject_name
+                    );
+                    const baselineColor = subjectColor
+                      ? subjectColor.base
+                      : defaultColor.base;
+                    return (
+                      <li key={subject.subject_id}>
+                        <span style={{ backgroundColor: baselineColor }}></span>{" "}
+                        {subject.subject_name}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -263,7 +334,9 @@ const ProgressAndScore = () => {
           <div className="top-head-in">
             <h1 className="mb-0"> Scores by Subject, Lesson & Status </h1>
           </div>
-          <select name="subject" className="ms-auto"
+          <select
+            name="subject"
+            className="ms-auto"
             onChange={(e) => setSelectedProgressSubject(e.target.value)}
           >
             {allSubject?.map((item, index) => (
@@ -298,7 +371,10 @@ const ProgressAndScore = () => {
               <td>---</td>
               <td>
                 <div className="prog">
-                  <span> {subjectWiseQuizInfo?.[0]?.baseline_score || 0}% </span>
+                  <span>
+                    {" "}
+                    {subjectWiseQuizInfo?.[0]?.baseline_score || 0}%{" "}
+                  </span>
                   <div className="progress">
                     <div
                       className="progress-bar"
@@ -320,7 +396,8 @@ const ProgressAndScore = () => {
               </td>
 
               <td>
-                <div className={`status  ${
+                <div
+                  className={`status  ${
                     subjectWiseQuizInfo?.[0]?.baseline_status == "in_progress"
                       ? "review"
                       : subjectWiseQuizInfo?.[0]?.baseline_status == "review"
@@ -350,7 +427,7 @@ const ProgressAndScore = () => {
               </td>
             </tr>
             <tr>
-              <td> Lesson Quizzes  </td>
+              <td> Lesson Quizzes </td>
               <td>
                 All Lessons
                 {subjectWiseQuizInfo?.[0]?.lesson_wise?.length > 0 && (
@@ -359,7 +436,7 @@ const ProgressAndScore = () => {
                     className="lessons-btn"
                     onClick={() => setShowLession(!showLession)}
                   >
-                    <i className="fa-regular fa-angle-down"></i>
+                    <i className="fa-solid fa-angle-down"></i>
                   </button>
                 )}
               </td>
@@ -461,7 +538,10 @@ const ProgressAndScore = () => {
               <td>---</td>
               <td>
                 <div className="prog">
-                  <span> {subjectWiseQuizInfo?.[0]?.summative_score || 0}% </span>
+                  <span>
+                    {" "}
+                    {subjectWiseQuizInfo?.[0]?.summative_score || 0}%{" "}
+                  </span>
                   <div className="progress">
                     <div
                       className="progress-bar"

@@ -6,7 +6,11 @@ import { getPrincipalTeacherTraining } from "../../redux/slices/principal/princi
 import { getTeacherDetails } from "../../redux/slices/principal/teacherAndStudentsSlice";
 import { getSubjectLevel } from "../../redux/slices/principal/principalDashboardSlice";
 
-const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool }) => {
+const PrincipalTrainingCompletion = ({
+  subjectList,
+  classList,
+  selectedSchool,
+}) => {
   const dispatch = useDispatch();
   const currentLevel = localStorage.getItem("classLevel");
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -17,7 +21,9 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
   const [selectedStudents, setSelectedStudents] = useState([]);
 
   const { studentList2 } = useSelector((state) => state.dashboard);
-  const { teacherTrainingData } = useSelector((state) => state.principalProgress);
+  const { teacherTrainingData } = useSelector(
+    (state) => state.principalProgress
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const [navigationPage, setNavigationPage] = useState(1);
@@ -73,7 +79,12 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
     if (selectedLevel) {
       // dispatch(getSubjectsByLevel({ level_id: selectedLevel }));
       // dispatch(getPrincipalSubDashboard({ level_id: selectedLevel }));
-      dispatch(getTeacherDetails({ level_id: selectedLevel, school_id: selectedSchool}));
+      dispatch(
+        getTeacherDetails({
+          level_id: selectedLevel,
+          school_id: selectedSchool,
+        })
+      );
     }
   }, [dispatch, selectedLevel]);
 
@@ -93,7 +104,11 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
 
   useEffect(() => {
     if (selectedClasses) {
-      dispatch(getStudentList2({class: selectedClasses?.includes("all") ? ["all"] : selectedClasses,}));
+      dispatch(
+        getStudentList2({
+          class: selectedClasses?.includes("all") ? ["all"] : selectedClasses,
+        })
+      );
     }
   }, [selectedClasses]);
 
@@ -149,7 +164,7 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <div className="my-subjects">
       <div className="top-head">
@@ -159,24 +174,53 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
         <div className="influ-btns ms-auto">
           {/* Teachers Dropdown */}
           <div className="influ-dropdown">
-            <button className="influ-btn influ-drop-btn" type="button" onClick={() =>setActiveDropdown(activeDropdown === "teacherDropDown" ? null : "teacherDropDown")}>
+            <button
+              className="influ-btn influ-drop-btn"
+              type="button"
+              onClick={() =>
+                setActiveDropdown(
+                  activeDropdown === "teacherDropDown"
+                    ? null
+                    : "teacherDropDown"
+                )
+              }
+            >
               All Teachers{" "}
-              <i className={`fa-regular ${activeDropdown === "teacherDropDown" ? "fa-angle-up" : "fa-angle-down"}`} ></i>
+              <i
+                className={`fa-solid ${
+                  activeDropdown === "teacherDropDown"
+                    ? "fa-angle-up"
+                    : "fa-angle-down"
+                }`}
+              ></i>
             </button>
 
-            <div className="influ-drop-list" style={{ display: activeDropdown === "teacherDropDown" ? "block" : "none"}} >
+            <div
+              className="influ-drop-list"
+              style={{
+                display:
+                  activeDropdown === "teacherDropDown" ? "block" : "none",
+              }}
+            >
               <div className="influ-drop-list-search">
                 <button type="submit">
                   <img src="images/search-icon.svg" alt="" />
                 </button>
-                <input type="text" placeholder="Search" value={teacherSearch} 
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={teacherSearch}
                   onChange={(e) => setTeacherSearch(e.target.value)}
                 />
               </div>
               <div className="influ-drop-list-inner">
                 <div className="influ-drop-list-item">
-                  <input type="checkbox" checked={selectedTeacher.includes("all")}
-                    onChange={() =>handleToggle("all", selectedTeacher, setSelectedTeacher)}
+                  <input
+                    type="checkbox"
+                    checked={selectedTeacher.includes("all")}
+                    onChange={() =>
+                      handleToggle("all", selectedTeacher, setSelectedTeacher)
+                    }
                   />
                   All Teacher
                 </div>
@@ -304,7 +348,8 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
             )}
           </table>
           {/* Pagination Controls */}
-          <div className="panel-pagination"
+          <div
+            className="panel-pagination"
             style={{
               display: "flex",
               justifyContent: "flex-end",
@@ -312,11 +357,16 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
               alignItems: "center",
             }}
           >
-            <button className="page-btn" onClick={() => handleNavigate("prev")} disabled={navigationPage === 1}>
+            <button
+              className="page-btn"
+              onClick={() => handleNavigate("prev")}
+              disabled={navigationPage === 1}
+            >
               Prev
             </button>
             {getPageNumbers().map((number) => (
-              <button  className="page-count"
+              <button
+                className="page-count"
                 key={number}
                 onClick={() => handlePageNumberClick(number)}
                 style={{
@@ -334,7 +384,11 @@ const PrincipalTrainingCompletion = ({ subjectList, classList, selectedSchool })
                 {number}
               </button>
             ))}
-            <button className="page-btn" onClick={() => handleNavigate("next")} disabled={navigationPage === totalPages} >
+            <button
+              className="page-btn"
+              onClick={() => handleNavigate("next")}
+              disabled={navigationPage === totalPages}
+            >
               Next
             </button>
           </div>

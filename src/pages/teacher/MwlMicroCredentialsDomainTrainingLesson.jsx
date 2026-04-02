@@ -311,7 +311,7 @@ const MwlMicroCredentialsDomainTrainingLesson = () => {
               className="next-cta"
             >
               {location.state?.isLastLesson ? "Finish Lesson" : "Next Lesson"}
-              <i className="fa-regular fa-arrow-right"></i>
+              <i className="fa-solid fa-arrow-right"></i>
             </Link>
           )}
         </div>
@@ -755,7 +755,7 @@ export default MwlMicroCredentialsDomainTrainingLesson;
 //                 borderRadius: "10px", justifyContent: "space-around", alignItems: "center",
 //                 display: "flex", opacity: 0.8, }} >
 //               {location.state?.isLastLesson?.isLastLesson ? "Finish Lesson" : "Finish Lesson"}{" "}
-//               <i className="fa-regular fa-arrow-right"></i>
+//               <i className="fa-solid fa-arrow-right"></i>
 //             </span> */}
 //             </>
 //           ) : (
@@ -770,7 +770,7 @@ export default MwlMicroCredentialsDomainTrainingLesson;
 //               {location.state?.isLastLesson?.isLastLesson
 //                 ? "Finish Lesson"
 //                 : "Finish Lesson"}{" "}
-//               <i className="fa-regular fa-arrow-right"></i>
+//               <i className="fa-solid fa-arrow-right"></i>
 //             </Link>
 //           )}
 //         </div>

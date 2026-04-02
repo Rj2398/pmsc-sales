@@ -123,7 +123,7 @@ const MwlOnboarding = () => {
         </div>
         <div className="bottom-cta justify-content-end">
           <a href="javascript:void(0);" className="next-cta">
-            Finish Lesson <i className="fa-regular fa-arrow-right"></i>
+            Finish Lesson <i className="fa-solid fa-arrow-right"></i>
           </a>
         </div>
       </div>

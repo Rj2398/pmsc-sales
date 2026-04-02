@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubjectLevel, getSubjectsByLevel, getTeacherSubDashboard} from "../../redux/slices/teacher/dashboardSlice";
+import {
+  getSubjectLevel,
+  getSubjectsByLevel,
+  getTeacherSubDashboard,
+} from "../../redux/slices/teacher/dashboardSlice";
 import Select from "react-select";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { classLevels, allSubjects, subDashboard, allSubjectsData } = useSelector((state) => state.dashboard);
+  const { classLevels, allSubjects, subDashboard, allSubjectsData } =
+    useSelector((state) => state.dashboard);
 
   const [selectedLevel, setSelectedLevel] = useState(() => {
     return localStorage.getItem("classLevel") || null;
@@ -15,7 +20,7 @@ const Dashboard = () => {
   const allowedLevels = JSON.parse(localStorage.getItem("pmsc"))?.class_level;
 
   useEffect(() => {
-    if(allowedLevels == null){
+    if (allowedLevels == null) {
       dispatch(getSubjectLevel());
     }
   }, [dispatch]);
@@ -30,8 +35,24 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (selectedLevel || allowedLevels != null) {
-      dispatch(getSubjectsByLevel({ level_id: selectedLevel ? selectedLevel : allowedLevels == "ruby" ? 1 : 2 }));
-      dispatch(getTeacherSubDashboard({ level_id: selectedLevel ? selectedLevel : allowedLevels == "ruby" ? 1 : 2 }));
+      dispatch(
+        getSubjectsByLevel({
+          level_id: selectedLevel
+            ? selectedLevel
+            : allowedLevels == "ruby"
+            ? 1
+            : 2,
+        })
+      );
+      dispatch(
+        getTeacherSubDashboard({
+          level_id: selectedLevel
+            ? selectedLevel
+            : allowedLevels == "ruby"
+            ? 1
+            : 2,
+        })
+      );
     }
   }, [dispatch, selectedLevel, allowedLevels]);
 
@@ -41,7 +62,7 @@ const Dashboard = () => {
     localStorage.setItem("classLevel", newLevel);
   };
 
-  const options = classLevels?.map(level => ({
+  const options = classLevels?.map((level) => ({
     value: level?.id,
     label: level?.name,
   }));
@@ -60,22 +81,36 @@ const Dashboard = () => {
             </option>
           ))}
         </select> */}
-        {allowedLevels == null && <Select isSearchable={false}
-          styles={{
-            control: (base) => ({
-              ...base, minHeight: '38px', fontSize:"16px", borderColor:"#4126A8", boxShadow: 'none',
-              '&:hover': { borderColor: '#4126A8'}
-            }),
-            option: (base, state) => ({
-              ...base,
-              backgroundColor: state.isFocused ? '#4126A8' : 'white', color: state.isFocused ? 'white' : '#333',
-              '&:active': {
-                  backgroundColor: '#4126A8'
-              }
-            }),
-          }}
-        options={options} value={options?.find(opt => opt.value == selectedLevel)}
-          onChange={selected => handleLevelChange({ target: { name: 'level', value: selected.value }})}/>}
+        {allowedLevels == null && (
+          <Select
+            isSearchable={false}
+            styles={{
+              control: (base) => ({
+                ...base,
+                minHeight: "38px",
+                fontSize: "16px",
+                borderColor: "#4126A8",
+                boxShadow: "none",
+                "&:hover": { borderColor: "#4126A8" },
+              }),
+              option: (base, state) => ({
+                ...base,
+                backgroundColor: state.isFocused ? "#4126A8" : "white",
+                color: state.isFocused ? "white" : "#333",
+                "&:active": {
+                  backgroundColor: "#4126A8",
+                },
+              }),
+            }}
+            options={options}
+            value={options?.find((opt) => opt.value == selectedLevel)}
+            onChange={(selected) =>
+              handleLevelChange({
+                target: { name: "level", value: selected.value },
+              })
+            }
+          />
+        )}
       </div>
       <div className="progress-grid">
         <div className="row g-0">
@@ -87,14 +122,17 @@ const Dashboard = () => {
                 Baseline <br /> Assessments
               </h2>
               <h3>{subDashboard?.baseline_assessments?.percentage}%</h3>
-              {/* <!-- <a href="#">See details <i className="fa-regular fa-arrow-right"></i></a> --> */}
+              {/* <!-- <a href="#">See details <i className="fa-solid fa-arrow-right"></i></a> --> */}
               {/* <p className="text-white">{subDashboard?.baseline_assessments?.completed}/{subDashboard?.baseline_assessments?.total} completed</p> */}
             </div>
           </div>
           <div className="col-lg-3">
             <div className="progress-grid-in">
               <h2>
-                <img src="../images/dashboard/progress-grid/4.svg" alt="Lessons" />
+                <img
+                  src="../images/dashboard/progress-grid/4.svg"
+                  alt="Lessons"
+                />
                 Lesson Quizzes
               </h2>
               <h3>{subDashboard?.lesson_quiz_progress?.percentage}%</h3>
@@ -103,7 +141,10 @@ const Dashboard = () => {
           <div className="col-lg-3">
             <div className="progress-grid-in">
               <h2>
-                <img src="../images/dashboard/progress-grid/2.svg" alt="Summative Assessments" />
+                <img
+                  src="../images/dashboard/progress-grid/2.svg"
+                  alt="Summative Assessments"
+                />
                 Summative Assessments
               </h2>
               <h3>{subDashboard?.summative_assessments?.percentage}%</h3>
@@ -112,7 +153,11 @@ const Dashboard = () => {
           <div className="col-lg-3">
             <div className="progress-grid-in">
               <h2>
-                <img src="../images/dashboard/progress-grid/3.svg" alt="Overall Level" /> Overall Level
+                <img
+                  src="../images/dashboard/progress-grid/3.svg"
+                  alt="Overall Level"
+                />{" "}
+                Overall Level
               </h2>
               <h3>{subDashboard?.mwl_progress?.percentage}%</h3>
             </div>
@@ -150,7 +195,8 @@ const Dashboard = () => {
                       </h5>
                       <span>
                         ({subject?.completion_rate}%) &nbsp;
-                        {subject?.complete_completion}/{subject?.total_completion}
+                        {subject?.complete_completion}/
+                        {subject?.total_completion}
                       </span>
                     </div>
                     <div className="progress">
@@ -218,7 +264,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
 
 // import { useEffect, useState } from "react";
 // import { Link } from "react-router";
@@ -312,7 +357,7 @@ export default Dashboard;
 //                 Baseline <br /> Assessment
 //               </h2>
 //               <h3>{subDashboard?.baseline_assessments?.percentage}%</h3>
-//               {/* <!-- <a href="#">See details <i className="fa-regular fa-arrow-right"></i></a> --> */}
+//               {/* <!-- <a href="#">See details <i className="fa-solid fa-arrow-right"></i></a> --> */}
 //               {/* <p className="text-white">{subDashboard?.baseline_assessments?.completed}/{subDashboard?.baseline_assessments?.total} completed</p> */}
 //             </div>
 //           </div>

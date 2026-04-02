@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { teacherProfile } from "../../redux/slices/principal/teacherAndStudentsSlice";
-import { getSubjectLevel, setPrincipalTeacherName,   getSubjectList, } from "../../redux/slices/principal/principalDashboardSlice";
+import {
+  getSubjectLevel,
+  setPrincipalTeacherName,
+  getSubjectList,
+} from "../../redux/slices/principal/principalDashboardSlice";
 
 function PrincipalTeacherProfile() {
   const location = useLocation();
@@ -29,7 +33,6 @@ function PrincipalTeacherProfile() {
     const level = Number(currentLevel) === 1 ? "ruby" : "emerald";
     dispatch(teacherProfile({ level_id: level, teacher_id: teacherId }));
   }, [dispatch, currentLevel, teacherId]);
-
 
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [selectedCourses, setSelectedCourses] = useState([]);
@@ -135,7 +138,7 @@ function PrincipalTeacherProfile() {
 
       <div className="student-short-info for-principal">
         <h3>
-          {teacherData?.name} 
+          {teacherData?.name}
           {/* <span>Overall Score</span> */}
         </h3>
         <p>
@@ -244,7 +247,7 @@ function PrincipalTeacherProfile() {
           {/* <div className="influ-btns ms-3">
             <div className="influ-dropdown">
               <button className="influ-btn influ-drop-btn" type="button" onClick={() => setActiveDropdown(activeDropdown === "courseDropdown" ? null : "courseDropdown")} >
-                All Subjects <i className={`fa-regular ${activeDropdown === "courseDropdown" ? "fa-angle-up" : "fa-angle-down"}`}></i>
+                All Subjects <i className={`fa-solid ${activeDropdown === "courseDropdown" ? "fa-angle-up" : "fa-angle-down"}`}></i>
               </button>
               <div className="influ-drop-list" style={{ display: activeDropdown === "courseDropdown" ? "block" : "none" }}>
                 <div className="influ-drop-list-inner">
@@ -299,8 +302,21 @@ function PrincipalTeacherProfile() {
                     <tr key={index}>
                       <td>{item.student_name}</td>
                       <td>
-                        <div className={`status ${item.status == "not_started" && "inactive"} ${["In Progress", "in_progress", "retake", "review"].includes(item.status) && "review"}`}>
-                          {item.status.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()) ||
+                        <div
+                          className={`status ${
+                            item.status == "not_started" && "inactive"
+                          } ${
+                            [
+                              "In Progress",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item.status) && "review"
+                          }`}
+                        >
+                          {item.status
+                            .replace(/_/g, " ")
+                            .replace(/\b\w/g, (char) => char.toUpperCase()) ||
                             "Not Started"}
                         </div>
                       </td>
@@ -308,9 +324,18 @@ function PrincipalTeacherProfile() {
                         <div className="prog">
                           <span> {item.completion_score}% </span>
                           <div className="progress">
-                            <div className="progress-bar"
-                              style={{ width: `${item?.completion_score}%`,
-                                backgroundColor: ["In Progress", "in_progress", "retake", "review"].includes(item.status) ? "#f28100" : "#16a34a"
+                            <div
+                              className="progress-bar"
+                              style={{
+                                width: `${item?.completion_score}%`,
+                                backgroundColor: [
+                                  "In Progress",
+                                  "in_progress",
+                                  "retake",
+                                  "review",
+                                ].includes(item.status)
+                                  ? "#f28100"
+                                  : "#16a34a",
                               }}
                               role="progressbar"
                               aria-label="Basic example"
@@ -325,8 +350,13 @@ function PrincipalTeacherProfile() {
                         <div style={{ color: "#16A34A" }}>{item.avg_score}</div>
                       </td> */}
                       <td>
-                        <Link to="/principal/students/profile" 
-                          state={{ studentId: item.student_id, teacherStudentComing: "teacherStudentComing" }}>
+                        <Link
+                          to="/principal/students/profile"
+                          state={{
+                            studentId: item.student_id,
+                            teacherStudentComing: "teacherStudentComing",
+                          }}
+                        >
                           <i className="fa-light fa-eye"></i> View Details
                         </Link>
                       </td>
@@ -382,11 +412,19 @@ function PrincipalTeacherProfile() {
                     {/* Level Row */}
                     <tr>
                       <td>{item.level_name}</td>
-                      <td onClick={() => toggleLevel(item.level_id)} style={{ cursor: "pointer" }} >
+                      <td
+                        onClick={() => toggleLevel(item.level_id)}
+                        style={{ cursor: "pointer" }}
+                      >
                         All Subject
                         <button type="button" className="lessons-btn">
-                          <i className={`fa-solid ${ expandedLevels[item.level_id] 
-                                ? "fa-angle-up" : "fa-angle-down" }`} ></i>
+                          <i
+                            className={`fa-solid ${
+                              expandedLevels[item.level_id]
+                                ? "fa-angle-up"
+                                : "fa-angle-down"
+                            }`}
+                          ></i>
                         </button>
                       </td>
                       {/* <td>
@@ -405,8 +443,21 @@ function PrincipalTeacherProfile() {
                         </div>
                       </td> */}
                       <td>
-                        <div className={`status ${item.status == "not_started" && "inactive"} ${["In Progress", "in_progress", "retake", "review"].includes(item.status) && "review"}`}>
-                          {item.status.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()) ||
+                        <div
+                          className={`status ${
+                            item.status == "not_started" && "inactive"
+                          } ${
+                            [
+                              "In Progress",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item.status) && "review"
+                          }`}
+                        >
+                          {item.status
+                            .replace(/_/g, " ")
+                            .replace(/\b\w/g, (char) => char.toUpperCase()) ||
                             "Not Started"}
                         </div>
                       </td>
@@ -418,8 +469,13 @@ function PrincipalTeacherProfile() {
                         <tr key={subject.id} className="lessons-list">
                           <td>&nbsp;</td>
                           <td>
-                            {subject?.name} 
-                            {subject?.badge && <img src="/images/badge-icon.svg" alt="badge"></img>}
+                            {subject?.name}
+                            {subject?.badge && (
+                              <img
+                                src="/images/badge-icon.svg"
+                                alt="badge"
+                              ></img>
+                            )}
                           </td>
                           {/* <td>
                             <div className="prog">
@@ -443,11 +499,24 @@ function PrincipalTeacherProfile() {
                             </div>
                           </td> */}
                           <td>
-                           <div className={`status ${item.status == "not_started" && "inactive"} ${["In Progress", "in_progress", "retake", "review"].includes(item.status) && "review"}`}>
-                              {subject?.status.replace(/_/g, " ").replace(/\b\w/g, (char) =>
-                                  char.toUpperCase()) || "Not Started"}
+                            <div
+                              className={`status ${
+                                item.status == "not_started" && "inactive"
+                              } ${
+                                [
+                                  "In Progress",
+                                  "in_progress",
+                                  "retake",
+                                  "review",
+                                ].includes(item.status) && "review"
+                              }`}
+                            >
+                              {subject?.status
+                                .replace(/_/g, " ")
+                                .replace(/\b\w/g, (char) =>
+                                  char.toUpperCase()
+                                ) || "Not Started"}
                             </div>
- 
                           </td>
                         </tr>
                       ))}

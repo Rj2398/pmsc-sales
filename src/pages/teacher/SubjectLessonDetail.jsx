@@ -13,15 +13,20 @@ const SubjectLessonDetail = () => {
   const dispatch = useDispatch();
   const paramData = useParams();
 
-  const subjectId = location?.state?.subjectId ? location?.state?.subjectId : paramData?.subjectId;
-  const lessonId = location?.state?.lessonId ? location?.state?.lessonId : paramData?.lessonId;
+  const subjectId = location?.state?.subjectId
+    ? location?.state?.subjectId
+    : paramData?.subjectId;
+  const lessonId = location?.state?.lessonId
+    ? location?.state?.lessonId
+    : paramData?.lessonId;
 
   const { lessonInfo } = useSelector((state) => state.dashboard);
   const [nextLesson, setNextLesson] = useState(null);
 
   useEffect(() => {
     if (subjectId && lessonId) {
-      dispatch(getTeacherLessionDetail({
+      dispatch(
+        getTeacherLessionDetail({
           subject_id: subjectId,
           lesson_id: nextLesson ? nextLesson : lessonId,
         })
@@ -38,7 +43,9 @@ const SubjectLessonDetail = () => {
 
       if (response?.next_lesson_id) {
         setNextLesson(response?.next_lesson_id);
-        navigate(`/teacher/subject-lesson-detail/${subjectId}/${response.next_lesson_id}`);
+        navigate(
+          `/teacher/subject-lesson-detail/${subjectId}/${response.next_lesson_id}`
+        );
       } else {
         navigate(`/teacher/subject-detail/${subjectId}`);
       }
@@ -72,7 +79,7 @@ const SubjectLessonDetail = () => {
             className="next-cta"
             style={{ cursor: "pointer" }}
           >
-            Finish Lesson <i className="fa-regular fa-arrow-right"></i>
+            Finish Lesson <i className="fa-solid fa-arrow-right"></i>
           </a>
         </div>
       </div>
@@ -103,16 +110,23 @@ const ShowContents = ({ data, type }) => {
             <p dangerouslySetInnerHTML={{ __html: data?.desc }}></p>
           )}
           {data?.video_link && (
-            // <iframe src={data?.video_link.replace("/view", "/preview")} 
+            // <iframe src={data?.video_link.replace("/view", "/preview")}
             //   width="100%" height="554px" frameBorder="0" allowFullScreen
             //   style={{ border: 0 }} title="Embedded Google Drive Video Player"
             // ></iframe>
-            <video width="100%" height="554px" controls controlsList="nodownload noremoteplayback" disablePictureInPicture style={{ border: 0 }} title={data?.title || "Lesson Video"}>
+            <video
+              width="100%"
+              height="554px"
+              controls
+              controlsList="nodownload noremoteplayback"
+              disablePictureInPicture
+              style={{ border: 0 }}
+              title={data?.title || "Lesson Video"}
+            >
               <source src={data?.video_link} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           )}
-          
         </div>
       )}
 
@@ -136,13 +150,19 @@ const ShowContents = ({ data, type }) => {
 
       {/* QUIZ - STANDARD */}
       {type === "quiz" &&
-        (data.quiz_subtype === "standard" || data.quiz_subtype === "fill_blank") && (
+        (data.quiz_subtype === "standard" ||
+          data.quiz_subtype === "fill_blank") && (
           <>
             <h2 dangerouslySetInnerHTML={{ __html: data.question }}></h2>
             <div className="baseline-ass-q-a b-line">
               {data.options?.map((opt, i) => (
                 <label key={i}>
-                  <input disabled type="radio" name={`answer-${data.id}`} value={i + 1} />
+                  <input
+                    disabled
+                    type="radio"
+                    name={`answer-${data.id}`}
+                    value={i + 1}
+                  />
                   {opt.option}
                 </label>
               ))}
@@ -152,14 +172,20 @@ const ShowContents = ({ data, type }) => {
 
       {/* QUIZ - fill_points */}
       {type === "quiz" &&
-        (data.quiz_subtype === "fill_points" || data.quiz_subtype === "points") && (
+        (data.quiz_subtype === "fill_points" ||
+          data.quiz_subtype === "points") && (
           <>
             <h2 dangerouslySetInnerHTML={{ __html: data.question }}></h2>
             <div className="baseline-ass-q-a b-line">
               {data.options?.map((opt, i) => (
                 <div key={i} style={{ display: "flex", gap: "10px" }}>
                   <label>
-                    <input disabled type="radio" name={`answer-${data.id}`} value={i + 1} />
+                    <input
+                      disabled
+                      type="radio"
+                      name={`answer-${data.id}`}
+                      value={i + 1}
+                    />
                     {opt.option}
                   </label>
                   {/* <label style={{ width: "5%", justifyContent: "center" }}>
@@ -171,31 +197,45 @@ const ShowContents = ({ data, type }) => {
           </>
         )}
 
-        {type === "quiz" && (data.quiz_subtype === "subjective") && (
-          <>
-            <div className="lesson-content-item quiz-content">
-              <h4 dangerouslySetInnerHTML={{ __html: data.question,}}></h4>
-                <div>
-                  <CKEditor editor={ClassicEditor}
-                    config={{
-                      toolbar: ["heading", "|", "bold", "italic", "underline", "|", "numberedList", "bulletedList", "|", "undo", "redo", ], }}
-                />
-              </div>
+      {type === "quiz" && data.quiz_subtype === "subjective" && (
+        <>
+          <div className="lesson-content-item quiz-content">
+            <h4 dangerouslySetInnerHTML={{ __html: data.question }}></h4>
+            <div>
+              <CKEditor
+                editor={ClassicEditor}
+                config={{
+                  toolbar: [
+                    "heading",
+                    "|",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "|",
+                    "numberedList",
+                    "bulletedList",
+                    "|",
+                    "undo",
+                    "redo",
+                  ],
+                }}
+              />
             </div>
-          </>
-        )} 
+          </div>
+        </>
+      )}
 
       {/* QUIZ - whiteboard */}
-      {type === "quiz" && (data.quiz_subtype === "whiteboard") && (
-          <>
-            <div className="lesson-content-item quiz-content">
-              {data.question && <h4>{data.question}</h4>}
-              
-              <div style={{ margin: "20px 0",height: 400, }}>
-                <Tldraw />
-              </div>
+      {type === "quiz" && data.quiz_subtype === "whiteboard" && (
+        <>
+          <div className="lesson-content-item quiz-content">
+            {data.question && <h4>{data.question}</h4>}
+
+            <div style={{ margin: "20px 0", height: 400 }}>
+              <Tldraw />
             </div>
-          </>
+          </div>
+        </>
       )}
 
       {/* QUIZ - multiple_select */}
@@ -206,8 +246,13 @@ const ShowContents = ({ data, type }) => {
             {data.options?.map((opt, i) => (
               <div key={i} style={{ display: "flex", gap: "10px" }}>
                 <label>
-                  <input disabled type="checkbox" name={`answer-${data.id}`} value={i + 1} 
-                    style={{ transform: "scale(1.2)", }} />
+                  <input
+                    disabled
+                    type="checkbox"
+                    name={`answer-${data.id}`}
+                    value={i + 1}
+                    style={{ transform: "scale(1.2)" }}
+                  />
                   {opt.option}
                 </label>
                 {/* <label style={{ width: "5%", justifyContent: "center" }}>
@@ -227,11 +272,21 @@ const ShowContents = ({ data, type }) => {
             {data.matching_pairs?.map((pair, index) => (
               <React.Fragment key={index}>
                 <label>
-                  <input disabled type="radio" name={`answer-${data.id}`} value={index + 1} />
+                  <input
+                    disabled
+                    type="radio"
+                    name={`answer-${data.id}`}
+                    value={index + 1}
+                  />
                   {pair.left_item}
                 </label>
                 <label>
-                  <input disabled type="radio" name={`answer-${data.id}`} value={index + 1} />
+                  <input
+                    disabled
+                    type="radio"
+                    name={`answer-${data.id}`}
+                    value={index + 1}
+                  />
                   {pair.right_item}
                 </label>
               </React.Fragment>

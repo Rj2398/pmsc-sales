@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
-import { getClassDetailBySubject, getSubjectList, setPrincipalCurrentSubject, } from "../../redux/slices/principal/principalDashboardSlice";
+import {
+  getClassDetailBySubject,
+  getSubjectList,
+  setPrincipalCurrentSubject,
+} from "../../redux/slices/principal/principalDashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Classdetails = () => {
@@ -9,21 +13,26 @@ const Classdetails = () => {
   const location = useLocation();
   const paramData = useParams();
 
-  const subjectId = location?.state?.subjectId ? location?.state?.subjectId : paramData?.subjectId;
+  const subjectId = location?.state?.subjectId
+    ? location?.state?.subjectId
+    : paramData?.subjectId;
   const teachercoming = location?.state?.teachercoming;
 
   const currentLevel = localStorage.getItem("classLevel");
 
-  const { classDetails, subjectList } = useSelector((state) => state.principalDashboard);
+  const { classDetails, subjectList } = useSelector(
+    (state) => state.principalDashboard
+  );
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
-  const filteredStudent = classDetails?.students?.filter((student) =>
-    student.student_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    student.student_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    student?.status?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredStudent = classDetails?.students?.filter(
+    (student) =>
+      student.student_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.student_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student?.status?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
@@ -109,14 +118,16 @@ const Classdetails = () => {
               to={`/principal/student-subject-detail/${subjectId}`}
               state={{ subjectId: subjectId }}
             >
-              <img src="/images/view-icon.svg" alt="View Subject Info" /> View Subject Info
+              <img src="/images/view-icon.svg" alt="View Subject Info" /> View
+              Subject Info
             </Link>
           ) : (
             <Link
               to={`/principal/student/subject/detail/${subjectId}`}
               state={{ subjectId: subjectId }}
             >
-              <img src="/images/view-icon.svg" alt="View Subject Info" /> View Subject Info
+              <img src="/images/view-icon.svg" alt="View Subject Info" /> View
+              Subject Info
             </Link>
           )}
         </div>
@@ -127,11 +138,14 @@ const Classdetails = () => {
               className="influ-btn influ-drop-btn"
               type="button"
               onClick={() =>
-                setActiveDropdown(activeDropdown === "courseDropdown" ? null : "courseDropdown")
-              }>
+                setActiveDropdown(
+                  activeDropdown === "courseDropdown" ? null : "courseDropdown"
+                )
+              }
+            >
               All Subjects{" "}
               <i
-                className={`fa-regular ${
+                className={`fa-solid ${
                   activeDropdown === "courseDropdown"
                     ? "fa-angle-up"
                     : "fa-angle-down"
@@ -218,7 +232,19 @@ const Classdetails = () => {
                   <tr key={index}>
                     <td>{student?.student_name || "Lorem Ipsum"}</td>
                     <td>
-                      <div className={`status ${["not_started", "locked"].includes(student?.status) && "inactive"} ${["review", "in_progress"].includes(student?.status) && "review"}`}>{student?.status.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())}</div>
+                      <div
+                        className={`status ${
+                          ["not_started", "locked"].includes(student?.status) &&
+                          "inactive"
+                        } ${
+                          ["review", "in_progress"].includes(student?.status) &&
+                          "review"
+                        }`}
+                      >
+                        {student?.status
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (char) => char.toUpperCase())}
+                      </div>
                     </td>
                     <td>
                       <div className="prog">
@@ -280,12 +306,15 @@ const Classdetails = () => {
           </table>
 
           {/* Pagination Section */}
-          <div className="panel-pagination" style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginTop: "20px",
-                    alignItems: "center",
-                  }}>
+          <div
+            className="panel-pagination"
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginTop: "20px",
+              alignItems: "center",
+            }}
+          >
             {/* Left Side: Showing Info */}
             <div>
               {filteredStudent?.length > 0 && (
@@ -505,7 +534,7 @@ export default Classdetails;
 //               {/* All Subjects <i className={`fas fa-chevron-down ${activeDropdown === "courseDropdown" ? "active" : ""}`}></i> */}
 //               All Subjects{" "}
 //               <i
-//                 className={`fa-regular ${activeDropdown === "courseDropdown"
+//                 className={`fa-solid ${activeDropdown === "courseDropdown"
 //                   ? "fa-angle-up"
 //                   : "fa-angle-down"
 //                   }`}

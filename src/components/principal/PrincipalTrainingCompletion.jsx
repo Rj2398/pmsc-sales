@@ -157,7 +157,7 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <div className="my-subjects">
       <div className="top-head">
@@ -180,7 +180,7 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
             >
               All Teachers{" "}
               <i
-                className={`fa-regular ${
+                className={`fa-solid ${
                   activeDropdown === "teacherDropDown"
                     ? "fa-angle-up"
                     : "fa-angle-down"
@@ -240,10 +240,13 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
             </div>
           </div>
 
-
           {/* All levels Dropdown */}
           <div className="influ-dropdown">
-            <select value={selectedLevel || ""} name="level" onChange={handleLevelChange} >
+            <select
+              value={selectedLevel || ""}
+              name="level"
+              onChange={handleLevelChange}
+            >
               <option value={classLevels?.map((l) => l.value).join(",")}>
                 All Levels
               </option>
@@ -365,8 +368,16 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
                           <div
                             className="progress-bar"
                             style={{
-                              width: `${trainingData?.overall_completion || 0}%`,
-                              background: ["review", "not_completed", "in_progress"].includes(trainingData?.status) ? "#F28100" : "#16a34a",
+                              width: `${
+                                trainingData?.overall_completion || 0
+                              }%`,
+                              background: [
+                                "review",
+                                "not_completed",
+                                "in_progress",
+                              ].includes(trainingData?.status)
+                                ? "#F28100"
+                                : "#16a34a",
                             }}
                             role="progressbar"
                             aria-label="Basic example"
@@ -378,8 +389,18 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
                       </div>
                     </td>
                     <td>
-                      <div className={`status ${trainingData?.status == "not_started" && "inactive"} ${["not_completed","in_progress",].includes(trainingData?.status) && "review"}`} >
-                        {trainingData?.status?.replace(/_/g, " ")?.replace(/\b\w/g, (char) => char?.toUpperCase())}
+                      <div
+                        className={`status ${
+                          trainingData?.status == "not_started" && "inactive"
+                        } ${
+                          ["not_completed", "in_progress"].includes(
+                            trainingData?.status
+                          ) && "review"
+                        }`}
+                      >
+                        {trainingData?.status
+                          ?.replace(/_/g, " ")
+                          ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
                       </div>
                     </td>
                   </tr>
@@ -399,7 +420,8 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
             )}
           </table>
           {/* Pagination Controls */}
-          <div  className="panel-pagination"
+          <div
+            className="panel-pagination"
             style={{
               display: "flex",
               justifyContent: "flex-end",
@@ -415,7 +437,8 @@ const PrincipalTrainingCompletion = ({ subjectList, classList }) => {
               Prev
             </button>
             {getPageNumbers().map((number) => (
-              <button  className="page-count"
+              <button
+                className="page-count"
                 key={number}
                 onClick={() => handlePageNumberClick(number)}
                 style={{

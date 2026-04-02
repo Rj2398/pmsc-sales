@@ -14,7 +14,9 @@ const ClassDetail = () => {
   const navigate = useNavigate();
   const currentLevel = localStorage.getItem("classLevel");
 
-  const subjectId = location?.state?.subjectId ? location?.state?.subjectId : paramData?.subjectId;
+  const subjectId = location?.state?.subjectId
+    ? location?.state?.subjectId
+    : paramData?.subjectId;
   const { classDetails, subjectList } = useSelector((state) => state.dashboard);
 
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -106,7 +108,7 @@ const ClassDetail = () => {
             >
               All Subjects{" "}
               <i
-                className={`fa-regular ${
+                className={`fa-solid ${
                   activeDropdown === "courseDropdown"
                     ? "fa-angle-up"
                     : "fa-angle-down"
@@ -180,7 +182,10 @@ const ClassDetail = () => {
             <tbody>
               {!filteredStudent || filteredStudent.length === 0 ? (
                 <tr>
-                  <td colSpan="5" style={{ paddingTop: "25px", textAlign: "center" }} >
+                  <td
+                    colSpan="5"
+                    style={{ paddingTop: "25px", textAlign: "center" }}
+                  >
                     No Student Available
                   </td>
                 </tr>
@@ -189,7 +194,19 @@ const ClassDetail = () => {
                   <tr key={index}>
                     <td>{item?.student_name}</td>
                     <td>
-                      <div className={`status ${["not_started", "locked"].includes(item?.status) && "inactive"} ${["review", "in_progress"].includes(item?.status) && "review"}`}>{item?.status.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())}</div>
+                      <div
+                        className={`status ${
+                          ["not_started", "locked"].includes(item?.status) &&
+                          "inactive"
+                        } ${
+                          ["review", "in_progress"].includes(item?.status) &&
+                          "review"
+                        }`}
+                      >
+                        {item?.status
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, (char) => char.toUpperCase())}
+                      </div>
                     </td>
                     <td>
                       <div className="prog">
@@ -199,7 +216,15 @@ const ClassDetail = () => {
                             className="progress-bar"
                             style={{
                               width: `${item?.overall_percentage ?? 0}%`,
-                              backgroundColor: ["not_started", "not_completed", "in_progress", "In Progress", "review"].includes(item?.status) ? "#F28100" : "#16a34a"
+                              backgroundColor: [
+                                "not_started",
+                                "not_completed",
+                                "in_progress",
+                                "In Progress",
+                                "review",
+                              ].includes(item?.status)
+                                ? "#F28100"
+                                : "#16a34a",
                             }}
                             role="progressbar"
                             aria-label="Overall percentage"
@@ -210,8 +235,8 @@ const ClassDetail = () => {
                         </div>
                       </div>
                     </td>
-                    <td >
-                      <Link >
+                    <td>
+                      <Link>
                         <i className="fa-light fa-eye"></i> View
                       </Link>
                     </td>

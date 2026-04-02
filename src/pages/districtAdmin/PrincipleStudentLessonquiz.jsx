@@ -1,11 +1,20 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef, } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import PdfViewer from "../student/PdfViewer";
-import { getLessonQuizAnswers, setPrincipalLessonQuizName, } from "../../redux/slices/principal/principalDashboardSlice";
+import {
+  getLessonQuizAnswers,
+  setPrincipalLessonQuizName,
+} from "../../redux/slices/principal/principalDashboardSlice";
 
 // --- Utility function to cyclically shift an array ---
 function cyclicallyShiftArray(array) {
@@ -320,10 +329,10 @@ const StudentLessonQuiz = () => {
   const navigate = useNavigate();
 
   const lessonId = searchParams1.get("lessonId") || location.state?.lessonId;
-  const studentId = searchParams1.get("studentId")  || location.state?.studentId;
+  const studentId = searchParams1.get("studentId") || location.state?.studentId;
   const paramData = location.state?.param;
 
-  var simulateMatchingQuizAnswered = true
+  var simulateMatchingQuizAnswered = true;
 
   const [searchParams] = useSearchParams();
   // const lessonId = searchParams.get("lessonId");
@@ -340,7 +349,9 @@ const StudentLessonQuiz = () => {
   }, [location?.pathname]);
 
   useEffect(() => {
-    dispatch(getLessonQuizAnswers({ lesson_id: lessonId, student_id: studentId }));
+    dispatch(
+      getLessonQuizAnswers({ lesson_id: lessonId, student_id: studentId })
+    );
   }, [dispatch]);
 
   useEffect(() => {
@@ -355,10 +366,14 @@ const StudentLessonQuiz = () => {
     );
   }, [lessonQuizAnswer?.lesson?.contents]);
 
-  const getQuizContentById = useCallback((id) => {
-      return sortedContents.find((item) => item.type === "quiz" && item.id === id);
+  const getQuizContentById = useCallback(
+    (id) => {
+      return sortedContents.find(
+        (item) => item.type === "quiz" && item.id === id
+      );
     },
-    [sortedContents]);
+    [sortedContents]
+  );
 
   const checkAndCommitMatch = useCallback(
     (quizId, currentQuizState) => {
@@ -512,11 +527,11 @@ const StudentLessonQuiz = () => {
     <>
       <div className="baseline-ass-wrp">
         <div className="back-btn mb-3">
-            <Link to={`#`} onClick={() => navigate(-1)}>
-              <img src="/images/baseline-assessment/back-icon.svg" alt="icon" />{" "}
-              Back to the Subject
-            </Link>
-          </div>
+          <Link to={`#`} onClick={() => navigate(-1)}>
+            <img src="/images/baseline-assessment/back-icon.svg" alt="icon" />{" "}
+            Back to the Subject
+          </Link>
+        </div>
         <div className="less-details">
           <h1>{lessonQuizAnswer?.lesson?.title}</h1>
           <div className="less-details-in">
@@ -533,11 +548,19 @@ const StudentLessonQuiz = () => {
                         return (
                           <div className="lesson-content-item text-content">
                             {contentItem.title && (
-                              <h3 dangerouslySetInnerHTML={{ __html: contentItem.title }} ></h3>
+                              <h3
+                                dangerouslySetInnerHTML={{
+                                  __html: contentItem.title,
+                                }}
+                              ></h3>
                             )}
 
                             {contentItem.desc && (
-                              <p dangerouslySetInnerHTML={{ __html: contentItem.desc, }} ></p>
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: contentItem.desc,
+                                }}
+                              ></p>
                             )}
                           </div>
                         );
@@ -546,19 +569,33 @@ const StudentLessonQuiz = () => {
                         return (
                           <div className="lesson-content-item video-content">
                             {contentItem.desc && (
-                              <p dangerouslySetInnerHTML={{__html: contentItem.desc,}}></p>
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: contentItem.desc,
+                                }}
+                              ></p>
                             )}
                             {contentItem.video_link && (
                               // <iframe src={contentItem.video_link.replace("/view","/preview")}
                               //   width="100%" height="554px" frameBorder="0" allowFullScreen
                               //   style={{ border: 0 }} title="Embedded Google Drive Video Player"
                               // ></iframe>
-                              <video width="100%" height="554px" controls controlsList="nodownload noremoteplayback" disablePictureInPicture style={{ border: 0 }} title={contentItem?.title || "Lesson Video"}>
-                                  <source src={contentItem?.video_link} type="video/mp4" />
-                                  Your browser does not support the video tag.
+                              <video
+                                width="100%"
+                                height="554px"
+                                controls
+                                controlsList="nodownload noremoteplayback"
+                                disablePictureInPicture
+                                style={{ border: 0 }}
+                                title={contentItem?.title || "Lesson Video"}
+                              >
+                                <source
+                                  src={contentItem?.video_link}
+                                  type="video/mp4"
+                                />
+                                Your browser does not support the video tag.
                               </video>
                             )}
-                            
                           </div>
                         );
 
@@ -592,31 +629,46 @@ const StudentLessonQuiz = () => {
                         return (
                           <div className="lesson-content-item ">
                             {contentItem.desc && (
-                              <p dangerouslySetInnerHTML={{ __html: contentItem.desc}} ></p>
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: contentItem.desc,
+                                }}
+                              ></p>
                             )}
                             {contentItem.image ? (
-                              <img src={contentItem.image} alt={`Lesson image ${contentItem.id}`}
-                                style={{ maxWidth: "100%", height: "554px" }} />
+                              <img
+                                src={contentItem.image}
+                                alt={`Lesson image ${contentItem.id}`}
+                                style={{ maxWidth: "100%", height: "554px" }}
+                              />
                             ) : (
                               <></>
                             )}
                           </div>
                         );
-                        
+
                       case "quiz":
                         const quizId = contentItem.id;
                         let quizState;
 
-                        if(contentItem.quiz_subtype == "subjective"){
-                          return (<div className="lesson-content-item quiz-content">
+                        if (contentItem.quiz_subtype == "subjective") {
+                          return (
+                            <div className="lesson-content-item quiz-content">
                               {contentItem.question ? (
                                 <h4>{contentItem.question}</h4>
                               ) : (
                                 <></>
-                              )} 
+                              )}
 
-                              <p dangerouslySetInnerHTML={{__html: contentItem?.subjective_answer?.[0]?.subjective_answer || '', }}></p>
-                          </div>)
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    contentItem?.subjective_answer?.[0]
+                                      ?.subjective_answer || "",
+                                }}
+                              ></p>
+                            </div>
+                          );
                         }
 
                         if (contentItem.quiz_subtype === "matching") {
@@ -636,8 +688,9 @@ const StudentLessonQuiz = () => {
                           }
                         }
 
-                        if(contentItem.quiz_subtype == "whiteboard"){
-                          return (<div className="lesson-content-item quiz-content">
+                        if (contentItem.quiz_subtype == "whiteboard") {
+                          return (
+                            <div className="lesson-content-item quiz-content">
                               {contentItem.question ? (
                                 <h4>{contentItem.question}</h4>
                               ) : (
@@ -645,12 +698,20 @@ const StudentLessonQuiz = () => {
                                   Quiz content available but no question
                                   provided.
                                 </p>
-                              )} 
+                              )}
 
-                              {contentItem?.whiteboard_answer ? <div className="quiz-option-img">
-                                <img src={contentItem?.whiteboard_answer} alt="drwaing" />
-                                </div> : "No Answer"}
-                          </div>)
+                              {contentItem?.whiteboard_answer ? (
+                                <div className="quiz-option-img">
+                                  <img
+                                    src={contentItem?.whiteboard_answer}
+                                    alt="drwaing"
+                                  />
+                                </div>
+                              ) : (
+                                "No Answer"
+                              )}
+                            </div>
+                          );
                         }
 
                         if (contentItem.quiz_subtype === "matching") {
@@ -687,11 +748,13 @@ const StudentLessonQuiz = () => {
                                 <h4>{contentItem.question}</h4>
                               ) : (
                                 <p>
-                                  Quiz content available but no question provided.
+                                  Quiz content available but no question
+                                  provided.
                                 </p>
                               )}
 
-                              <div className="matching-grp"
+                              <div
+                                className="matching-grp"
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-around",
@@ -702,7 +765,10 @@ const StudentLessonQuiz = () => {
                                 }}
                               >
                                 {/* Left Column: Left Items */}
-                                <div style={{ flex: 1 }} className="matching-in">
+                                <div
+                                  style={{ flex: 1 }}
+                                  className="matching-in"
+                                >
                                   {allLeftItems && allLeftItems.length > 0 ? (
                                     allLeftItems.map((pair) => {
                                       const isCurrentlySelected =
@@ -742,7 +808,10 @@ const StudentLessonQuiz = () => {
                                 </div>
 
                                 {/* Right Column: Right Options */}
-                                <div style={{ flex: 1 }} className="matching-in">
+                                <div
+                                  style={{ flex: 1 }}
+                                  className="matching-in"
+                                >
                                   {allRightItems && allRightItems.length > 0 ? (
                                     allRightItems.map((rightOption, idx) => {
                                       const isCurrentlySelected =
@@ -787,11 +856,12 @@ const StudentLessonQuiz = () => {
                             </div>
                           );
                         } else {
-                          const selectedOptionId = contentItem.user_answer?.[0]?.selected_option_id
+                          const selectedOptionId = contentItem.user_answer?.[0]
+                            ?.selected_option_id
                             ? contentItem.user_answer?.[0].selected_option_id
                             : quizAnswers[quizId];
 
-                            return (
+                          return (
                             <div className="lesson-content-item quiz-content">
                               {contentItem.question ? (
                                 <h4>{contentItem.question}</h4>
@@ -859,8 +929,9 @@ const StudentLessonQuiz = () => {
           <Link
             to={paramData ? paramData : "/district-admin/student-profile"}
             state={{ studentId: studentId, subjectId: subjectId }}
-            className="next-cta" >
-            Finish Lesson <i className="fa-regular fa-arrow-right"></i>
+            className="next-cta"
+          >
+            Finish Lesson <i className="fa-solid fa-arrow-right"></i>
           </Link>
         </div>
       </div>

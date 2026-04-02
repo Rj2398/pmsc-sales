@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef, } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +12,10 @@ import toast from "react-hot-toast";
 
 import { getLessionDetailSlice } from "../../redux/slices/student/lessionSlice";
 import PdfViewer from "../student/PdfViewer";
-import { getLessonQuizAnswers, setLessonQuizName, } from "../../redux/slices/teacher/dashboardSlice";
+import {
+  getLessonQuizAnswers,
+  setLessonQuizName,
+} from "../../redux/slices/teacher/dashboardSlice";
 
 // --- Utility function to cyclically shift an array ---
 function cyclicallyShiftArray(array) {
@@ -19,11 +28,14 @@ function cyclicallyShiftArray(array) {
 }
 
 const MatchingLeftOption = ({
-  pair, quizId, isCurrentlySelected,
+  pair,
+  quizId,
+  isCurrentlySelected,
   isRecolored, // New prop for correct match final color
   isCorrect, // New prop for temporary correct feedback
   isIncorrect, // New prop for temporary incorrect feedback
-  handleMatchingLeftRadioChange, isAlreadySelected,
+  handleMatchingLeftRadioChange,
+  isAlreadySelected,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -39,7 +51,14 @@ const MatchingLeftOption = ({
 
   const getColor = () => {
     if (isIncorrect) return "#fff";
-    if ( isHovered || isCurrentlySelected || isCorrect || isRecolored || isAlreadySelected ) return "#fff";
+    if (
+      isHovered ||
+      isCurrentlySelected ||
+      isCorrect ||
+      isRecolored ||
+      isAlreadySelected
+    )
+      return "#fff";
     return "#333";
   };
 
@@ -71,15 +90,21 @@ const MatchingLeftOption = ({
         transition:
           "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease",
       }}
-      onMouseEnter={ () => !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
+      onMouseEnter={
+        () =>
+          !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
         // && setIsHovered(true) // Add condition
       }
-      onMouseLeave={ () => !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
+      onMouseLeave={
+        () =>
+          !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
         // && setIsHovered(false) // Add condition
       }
-      onClick={() => !(isTemporarilyDisabled || isAlreadySelected) && // Add condition
+      onClick={() =>
+        !(isTemporarilyDisabled || isAlreadySelected) && // Add condition
         handleMatchingLeftRadioChange(quizId, pair.id)
-      } >
+      }
+    >
       <input
         type="radio"
         id={`left-${pair.id}-${quizId}`}
@@ -93,11 +118,17 @@ const MatchingLeftOption = ({
         disabled={isTemporarilyDisabled || isAlreadySelected} // Add condition
         style={{ marginRight: "10px", transform: "scale(1.2)" }}
       />
-      <label htmlFor={`left-${pair.id}-${quizId}`} style={{
+      <label
+        htmlFor={`left-${pair.id}-${quizId}`}
+        style={{
           flex: 1,
-          cursor: isTemporarilyDisabled || isAlreadySelected ? "not-allowed" : "pointer", // Update cursor style
+          cursor:
+            isTemporarilyDisabled || isAlreadySelected
+              ? "not-allowed"
+              : "pointer", // Update cursor style
           fontWeight: "normal",
-        }} >
+        }}
+      >
         {pair.left_item}
       </label>
     </div>
@@ -130,7 +161,14 @@ const MatchingRightOption = ({
 
   const getColor = () => {
     if (isIncorrect) return "#fff";
-    if ( isHovered || isCurrentlySelected || isCorrect || isRecolored || isAlreadySelected ) return "#fff";
+    if (
+      isHovered ||
+      isCurrentlySelected ||
+      isCorrect ||
+      isRecolored ||
+      isAlreadySelected
+    )
+      return "#fff";
     return "#333";
   };
 
@@ -163,15 +201,21 @@ const MatchingRightOption = ({
         transition:
           "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease",
       }}
-      onMouseEnter={ () => !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
-        // && setIsHovered(true) // Add condition 
+      onMouseEnter={
+        () =>
+          !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
+        // && setIsHovered(true) // Add condition
       }
-      onMouseLeave={ () => !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
+      onMouseLeave={
+        () =>
+          !(isTemporarilyDisabled || isAlreadySelected) && !isCurrentlySelected
         //  && setIsHovered(false) // Add condition
       }
-      onClick={() => !(isTemporarilyDisabled || isAlreadySelected) && // Add condition 
+      onClick={() =>
+        !(isTemporarilyDisabled || isAlreadySelected) && // Add condition
         handleMatchingRightRadioChange(quizId, rightOption)
-      } >
+      }
+    >
       <input
         type="radio"
         id={`right-${rightOption}-${quizId}-${idx}`}
@@ -189,9 +233,13 @@ const MatchingRightOption = ({
         htmlFor={`right-${rightOption}-${quizId}-${idx}`}
         style={{
           flex: 1,
-          cursor: isTemporarilyDisabled || isAlreadySelected ? "not-allowed" : "pointer", // Update cursor style
+          cursor:
+            isTemporarilyDisabled || isAlreadySelected
+              ? "not-allowed"
+              : "pointer", // Update cursor style
           fontWeight: "normal",
-        }} >
+        }}
+      >
         {rightOption}
       </label>
     </div>
@@ -269,8 +317,10 @@ const SingleChoiceOption = ({
 
 const StudentLessonQuiz = () => {
   const { lessonQuizAnswer } = useSelector((state) => state.dashboard);
-  const lessionWiseDetailsFromStore = useSelector(({ lession }) => lession.lessionWiseDetails);
-  
+  const lessionWiseDetailsFromStore = useSelector(
+    ({ lession }) => lession.lessionWiseDetails
+  );
+
   const [searchParams1] = useSearchParams();
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -547,18 +597,18 @@ const StudentLessonQuiz = () => {
     setQuizAnswers((prevAnswers) => {
       const currentAnswers = prevAnswers[quizId] || [];
       const isSelected = currentAnswers.includes(optionId);
-      
+
       if (isSelected) {
         // Remove the option if it's already selected
         return {
           ...prevAnswers,
-          [quizId]: currentAnswers.filter(id => id !== optionId)
+          [quizId]: currentAnswers.filter((id) => id !== optionId),
         };
       } else {
         // Add the option if it's not selected
         return {
           ...prevAnswers,
-          [quizId]: [...currentAnswers, optionId]
+          [quizId]: [...currentAnswers, optionId],
         };
       }
     });
@@ -637,7 +687,11 @@ const StudentLessonQuiz = () => {
                         return (
                           <div className="lesson-content-item video-content">
                             {contentItem.desc && (
-                              <p dangerouslySetInnerHTML={{ __html: contentItem.desc,}} ></p>
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: contentItem.desc,
+                                }}
+                              ></p>
                             )}
                             {contentItem.video_link && (
                               // <iframe src={contentItem.video_link.replace("/view","/preview")}
@@ -648,12 +702,22 @@ const StudentLessonQuiz = () => {
                               //   style={{ border: 0 }}
                               //   title="Embedded Google Drive Video Player"
                               // ></iframe>
-                              <video width="100%" height="554px" controls controlsList="nodownload noremoteplayback" disablePictureInPicture style={{ border: 0 }} title={contentItem?.title || "Lesson Video"}>
-                                  <source src={contentItem?.video_link} type="video/mp4" />
-                                  Your browser does not support the video tag.
+                              <video
+                                width="100%"
+                                height="554px"
+                                controls
+                                controlsList="nodownload noremoteplayback"
+                                disablePictureInPicture
+                                style={{ border: 0 }}
+                                title={contentItem?.title || "Lesson Video"}
+                              >
+                                <source
+                                  src={contentItem?.video_link}
+                                  type="video/mp4"
+                                />
+                                Your browser does not support the video tag.
                               </video>
                             )}
-                            
                           </div>
                         );
 
@@ -717,41 +781,60 @@ const StudentLessonQuiz = () => {
                         if (contentItem.quiz_subtype === "multiple_select") {
                           // Render multiple select quiz
                           const selectedOptionIds = contentItem.user_answer
-                            ? contentItem.user_answer.map(ans => ans.selected_option_id)
+                            ? contentItem.user_answer.map(
+                                (ans) => ans.selected_option_id
+                              )
                             : quizAnswers[quizId] || [];
 
                           return (
-                            <div className="lesson-content-item quiz-content" key={`quiz-${quizId}`}>
+                            <div
+                              className="lesson-content-item quiz-content"
+                              key={`quiz-${quizId}`}
+                            >
                               {contentItem.question ? (
                                 <h4>{contentItem.question}</h4>
                               ) : (
-                                <p>Quiz content available but no question provided.</p>
+                                <p>
+                                  Quiz content available but no question
+                                  provided.
+                                </p>
                               )}
 
                               {contentItem.options &&
                               Array.isArray(contentItem.options) &&
                               contentItem.options.length > 0 ? (
                                 <div className="quiz-options">
-                                  {contentItem.options.map((option, optionIndex) => {
-                                    if (!option || !option.id || !option.option) {
-                                      console.warn(
-                                        `Missing data for a quiz option in quiz ID: ${contentItem.id}. Skipping option.`
+                                  {contentItem.options.map(
+                                    (option, optionIndex) => {
+                                      if (
+                                        !option ||
+                                        !option.id ||
+                                        !option.option
+                                      ) {
+                                        console.warn(
+                                          `Missing data for a quiz option in quiz ID: ${contentItem.id}. Skipping option.`
+                                        );
+                                        return null;
+                                      }
+                                      const isSelected =
+                                        selectedOptionIds.includes(option.id);
+                                      return (
+                                        <MultipleSelectOption
+                                          key={`option-${option.id}-${quizId}-${optionIndex}`}
+                                          option={option}
+                                          optionIndex={optionIndex}
+                                          quizId={quizId}
+                                          isSelected={isSelected}
+                                          handleMultipleSelectChange={
+                                            handleMultipleSelectChange
+                                          }
+                                          isAlreadySelected={
+                                            simulateMatchingQuizAnswered
+                                          }
+                                        />
                                       );
-                                      return null;
                                     }
-                                    const isSelected = selectedOptionIds.includes(option.id);
-                                    return (
-                                      <MultipleSelectOption
-                                        key={`option-${option.id}-${quizId}-${optionIndex}`}
-                                        option={option}
-                                        optionIndex={optionIndex}
-                                        quizId={quizId}
-                                        isSelected={isSelected}
-                                        handleMultipleSelectChange={handleMultipleSelectChange}
-                                        isAlreadySelected={simulateMatchingQuizAnswered}
-                                      />
-                                    );
-                                  })}
+                                  )}
                                 </div>
                               ) : (
                                 <p>No options available for this quiz.</p>
@@ -913,8 +996,9 @@ const StudentLessonQuiz = () => {
                           );
                         }
 
-                        if(contentItem.quiz_subtype == "subjective"){
-                          return (<div className="lesson-content-item quiz-content">
+                        if (contentItem.quiz_subtype == "subjective") {
+                          return (
+                            <div className="lesson-content-item quiz-content">
                               {contentItem.question ? (
                                 <h4>{contentItem.question}</h4>
                               ) : (
@@ -922,14 +1006,23 @@ const StudentLessonQuiz = () => {
                                   Quiz content available but no question
                                   provided.
                                 </p>
-                              )} 
+                              )}
 
-                              <p dangerouslySetInnerHTML={{__html: contentItem?.subjective_answer?.[0]?.subjective_answer || '', }} className="subjective-p"></p>
-                          </div>)
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    contentItem?.subjective_answer?.[0]
+                                      ?.subjective_answer || "",
+                                }}
+                                className="subjective-p"
+                              ></p>
+                            </div>
+                          );
                         }
 
-                        if(contentItem.quiz_subtype == "whiteboard"){
-                          return (<div className="lesson-content-item quiz-content">
+                        if (contentItem.quiz_subtype == "whiteboard") {
+                          return (
+                            <div className="lesson-content-item quiz-content">
                               {contentItem.question ? (
                                 <h4>{contentItem.question}</h4>
                               ) : (
@@ -937,16 +1030,23 @@ const StudentLessonQuiz = () => {
                                   Quiz content available but no question
                                   provided.
                                 </p>
-                              )} 
+                              )}
 
-                              {contentItem?.whiteboard_answer ? <div className="quiz-option-img">
-                                <img src={contentItem?.whiteboard_answer} alt="drwaing" />
-                                </div> : "No Answer"}
-                          </div>)
-                        }
-                        
-                        else {
-                          const selectedOptionId = contentItem.user_answer?.[0]?.selected_option_id
+                              {contentItem?.whiteboard_answer ? (
+                                <div className="quiz-option-img">
+                                  <img
+                                    src={contentItem?.whiteboard_answer}
+                                    alt="drwaing"
+                                  />
+                                </div>
+                              ) : (
+                                "No Answer"
+                              )}
+                            </div>
+                          );
+                        } else {
+                          const selectedOptionId = contentItem.user_answer?.[0]
+                            ?.selected_option_id
                             ? contentItem.user_answer?.[0]?.selected_option_id
                             : quizAnswers[quizId];
                           return (
@@ -1028,8 +1128,8 @@ const StudentLessonQuiz = () => {
             //   navigate(-1)
             // }
           >
-            {/* Next Lesson <i className="fa-regular fa-arrow-right"></i> */}
-            Return to Profile <i className="fa-regular fa-arrow-right"></i>
+            {/* Next Lesson <i className="fa-solid fa-arrow-right"></i> */}
+            Return to Profile <i className="fa-solid fa-arrow-right"></i>
           </Link>
 
           {/* <div className="bottom-cta justify-content-end">
@@ -1037,7 +1137,7 @@ const StudentLessonQuiz = () => {
     to={`/teacher/student-profile`}
     className="next-cta"
   >
-    Return to Profile <i className="fa-regular fa-arrow-right"></i>
+    Return to Profile <i className="fa-solid fa-arrow-right"></i>
   </Link>
 </div> */}
         </div>
@@ -1047,7 +1147,6 @@ const StudentLessonQuiz = () => {
 };
 
 export default React.memo(StudentLessonQuiz);
-
 
 const MultipleSelectOption = ({
   option,
