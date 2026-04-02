@@ -237,7 +237,7 @@ const ClassDetail = () => {
                     </td>
                     <td>
                       <Link>
-                        <i className="fa-light fa-eye"></i> View
+                        <i className="fa-solid fa-eye"></i> View
                       </Link>
                     </td>
                     <td>
@@ -251,7 +251,7 @@ const ClassDetail = () => {
                               : subjectId,
                         }}
                       >
-                        <i className="fa-light fa-eye"></i> View Details
+                        <i className="fa-solid fa-eye"></i> View Details
                       </Link>
                     </td>
                   </tr>
