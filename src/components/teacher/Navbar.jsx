@@ -4,13 +4,23 @@ import { useLocation, useNavigate } from "react-router";
 
 const Navbar = ({ setShowSidebar }) => {
   const location = useLocation();
+
+  const trainingPage = localStorage.getItem("mwlTraining");
+  console.log(trainingPage, "trainingPagetrainingPage");
   const navigate = useNavigate();
   const pathname = location.pathname;
-  const { teacherCurrentSubject, teacherStudentName, lessonQuizName, mwlTraining, mwlDomain} = useSelector((state) => state.dashboard);
+  const {
+    teacherCurrentSubject,
+    teacherStudentName,
+    lessonQuizName,
+    mwlTraining,
+    mwlDomain,
+  } = useSelector((state) => state.dashboard);
   const [headerTitle, setHeaderTitle] = useState("");
-  const [localTeacherCurrentSubject, setLocalTeacherCurrentSubject] = useState("");
+  const [localTeacherCurrentSubject, setLocalTeacherCurrentSubject] =
+    useState("");
   const [localTeacherStudentName, setLocalTeacherStudentName] = useState("");
-  
+
   const [localMwlTraining, setLocalMwlTraining] = useState("");
   const [localMwlDomain, setLocalMwlDomain] = useState("");
 
@@ -50,7 +60,10 @@ const Navbar = ({ setShowSidebar }) => {
         {headerTitle}
       </div> */}
 
-      <div className="nav-toggle" style={{ display: "flex", alignItems: "center", gap: "8px" }} >
+      <div
+        className="nav-toggle"
+        style={{ display: "flex", alignItems: "center", gap: "8px" }}
+      >
         <div onClick={() => setShowSidebar((prev) => !prev)}>
           <div className="bx bx-menu">
             <img src="/images/sidebar-collapse.svg" alt="menu" />
@@ -59,8 +72,10 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname.startsWith("/teacher/class-detail/") ? (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} 
-              onClick={() => navigate("/teacher/dashboard")} >
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/dashboard")}
+            >
               Dashboard
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
@@ -72,12 +87,17 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname.startsWith("/teacher/subject-detail/") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/dashboard")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/dashboard")}
+            >
               Dashboard
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherCurrentSubject || localTeacherCurrentSubject}
             </span>
 
@@ -88,12 +108,17 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname.startsWith("/teacher/student-profile") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/dashboard")} >
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/dashboard")}
+            >
               Dashboard
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherCurrentSubject || localTeacherCurrentSubject}{" "}
             </span>
 
@@ -106,18 +131,25 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname.startsWith("/teacher/student-baseline-assessment") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} onClick={() => navigate("/teacher/dashboard")} >
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/dashboard")}
+            >
               Dashboard
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherCurrentSubject || localTeacherCurrentSubject}{" "}
             </span>
 
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherStudentName || localTeacherStudentName}
             </span>
 
@@ -128,19 +160,25 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname.startsWith("/teacher/student-summative-assessment") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/dashboard")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/dashboard")}
+            >
               Dashboard
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherCurrentSubject || localTeacherCurrentSubject}{" "}
             </span>
 
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherStudentName || localTeacherStudentName}
             </span>
 
@@ -152,19 +190,25 @@ const Navbar = ({ setShowSidebar }) => {
         {/* //currently static for lesson quiz */}
         {pathname.startsWith("/teacher/student-lesson-quiz") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/dashboard")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/dashboard")}
+            >
               Dashboard
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherCurrentSubject || localTeacherCurrentSubject}{" "}
             </span>
 
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               {teacherStudentName || localTeacherStudentName}
             </span>
 
@@ -175,16 +219,16 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname === "/teacher/mwl-training" && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/mwl-library")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/mwl-library")}
+            >
               MWL Library
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
             <span style={{ color: "#000" }}>
               {/* Micro-Credentials & Domain Training */}
-             {mwlTraining || localMwlTraining}
-
-              
+              {mwlTraining || localMwlTraining}
             </span>
           </div>
         )}
@@ -193,18 +237,27 @@ const Navbar = ({ setShowSidebar }) => {
         {pathname ===
           "/teacher/mwl-micro-credentials-domain-training-subject" && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/mwl-library")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/mwl-library")}
+            >
               MWL Library
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              // onClick={() => navigate(-1)}
+              // onClick={() => navigate("/teacher/mwl-training")}
+              onClick={() =>
+                navigate("/teacher/mwl-training", {
+                  state: { name: trainingPage },
+                })
+              }
+            >
               {mwlTraining || localMwlTraining}{" "}
             </span>
 
             <span style={{ color: "#6B7280" }}>{">"}</span>
-
 
             <span style={{ color: "#000" }}>{mwlDomain || localMwlDomain}</span>
           </div>
@@ -212,8 +265,10 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname === "/teacher/mwl-lesson-prep" && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/mwl-library")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/mwl-library")}
+            >
               MWL Library
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
@@ -223,13 +278,17 @@ const Navbar = ({ setShowSidebar }) => {
 
         {pathname === "/teacher/mwl-lesson-prep-subject" && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate("/teacher/mwl-library")}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/mwl-library")}
+            >
               MWL Library
             </span>
             <span style={{ color: "#6B7280" }}>{">"}</span>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
-              onClick={() => navigate(-1)}>
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
               Lesson Prep
             </span>
 
@@ -238,43 +297,57 @@ const Navbar = ({ setShowSidebar }) => {
           </div>
         )}
 
-                {/* //progess baseline assesment */}
+        {/* //progess baseline assesment */}
         {pathname.includes("/teacher/progress-student-baseline-assessment") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} onClick={() => navigate("/teacher/progress-and-score")} >
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/progress-and-score")}
+            >
               Progress & Score
             </span>
- 
+
             <span style={{ color: "#6B7280" }}>{">"}</span>
             <span style={{ color: "#000" }}>Baseline Assessment</span>
           </div>
         )}
- 
-        {pathname.includes("/teacher/progress-student-summative-assessment") && (
+
+        {pathname.includes(
+          "/teacher/progress-student-summative-assessment"
+        ) && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} onClick={() => navigate("/teacher/progress-and-score")} >
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/progress-and-score")}
+            >
               Progress & Score
             </span>
- 
+
             <span style={{ color: "#6B7280" }}>{">"}</span>
             <span style={{ color: "#000" }}>Summative Assessment</span>
           </div>
         )}
- 
+
         {pathname.includes("/teacher/progress-student-lesson-quiz") && (
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }} onClick={() => navigate("/teacher/progress-and-score")} >
+            <span
+              style={{ color: "#6B7280", cursor: "pointer", fontWeight: 500 }}
+              onClick={() => navigate("/teacher/progress-and-score")}
+            >
               Progress & Score
             </span>
- 
+
             <span style={{ color: "#6B7280" }}>{">"}</span>
             <span style={{ color: "#000" }}>{lessonQuizName}</span>
           </div>
         )}
- 
       </div>
       <div className="notification-btn"></div>
-      <div className="admin-icon" style={{cursor:"pointer"}} onClick={()=> navigate("/teacher/profile")}>
+      <div
+        className="admin-icon"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate("/teacher/profile")}
+      >
         <img src="/images/user.svg" alt="" />
       </div>
     </nav>
