@@ -267,7 +267,7 @@ const PricipalStudentprofile = () => {
                                 : subjectId,
                           }}
                         >
-                          <i className="fa-light fa-eye"></i> View Full Details
+                          <i className="fa-solid fa-eye"></i> View Full Details
                         </Link>
                       </td>
                     )}
@@ -388,7 +388,7 @@ const PricipalStudentprofile = () => {
                                   : subjectId,
                             }}
                           >
-                            <i className="fa-light fa-eye"></i> View Full
+                            <i className="fa-solid fa-eye"></i> View Full
                             Details
                           </Link>
                         </td>
@@ -469,7 +469,7 @@ const PricipalStudentprofile = () => {
                                 : subjectId,
                           }}
                         >
-                          <i className="fa-light fa-eye"></i> View Full Details
+                          <i className="fa-solid fa-eye"></i> View Full Details
                         </Link>
                       </td>
                     )}

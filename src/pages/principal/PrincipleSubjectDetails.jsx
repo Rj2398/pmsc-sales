@@ -114,7 +114,7 @@ const PrincipleSubjectDetails = () => {
 
                 <div className="sub-lessons-list-in-ryt">
                   <span>
-                    <i className="fa-light fa-clock"></i> {item?.duration}
+                    <i className="fa-solid fa-clock"></i> {item?.duration}
                   </span>
                 </div>
               </div>

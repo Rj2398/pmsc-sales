@@ -245,7 +245,7 @@ const StudentProfile = () => {
                               : subjectId,
                         }}
                       >
-                        <i className="fa-light fa-eye"></i> View Full Details
+                        <i className="fa-solid fa-eye"></i> View Full Details
                       </Link>
                     )}
                 </td>
@@ -343,7 +343,7 @@ const StudentProfile = () => {
                         <Link
                           to={`/teacher/student-lesson-quiz?lessonId=${lesson?.lesson_id}&studentId=${studentId}`}
                         >
-                          <i className="fa-light fa-eye"></i> View Full Details
+                          <i className="fa-solid fa-eye"></i> View Full Details
                         </Link>
                       </td>
                     )}
@@ -414,7 +414,7 @@ const StudentProfile = () => {
                               : subjectId,
                         }}
                       >
-                        <i className="fa-light fa-eye"></i> View Full Details
+                        <i className="fa-solid fa-eye"></i> View Full Details
                       </Link>
                     )}
                 </td>

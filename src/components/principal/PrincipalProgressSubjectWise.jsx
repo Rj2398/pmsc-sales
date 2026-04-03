@@ -281,7 +281,7 @@ const PrincipalProgressSubjectWise = ({ subjectList, classList }) => {
                         subjectId: selectedCourses?.[0],
                       }}
                     >
-                      <i className="fa-light fa-eye"></i> View Full Details
+                      <i className="fa-solid fa-eye"></i> View Full Details
                     </Link>
                   </td>
                 )}
@@ -377,7 +377,7 @@ const PrincipalProgressSubjectWise = ({ subjectList, classList }) => {
                         to={`/principal/progress-student-lesson-quiz?lessonId=${item?.lesson_id}&studentId=${selectedStudents?.[0]}`}
                         state={{ param: "/teacher/progress-and-score" }}
                       >
-                        <i className="fa-light fa-eye"></i> View Full Details
+                        <i className="fa-solid fa-eye"></i> View Full Details
                       </Link>
                     </td>
                   )}
@@ -450,7 +450,7 @@ const PrincipalProgressSubjectWise = ({ subjectList, classList }) => {
                         subjectId: selectedCourses?.[0],
                       }}
                     >
-                      <i className="fa-light fa-eye"></i> View Full Details
+                      <i className="fa-solid fa-eye"></i> View Full Details
                     </Link>
                   </td>
                 )}

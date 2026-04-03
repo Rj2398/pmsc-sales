@@ -306,7 +306,7 @@ const SubjectDetail = () => {
                       ?.replace(/\b\w/g, (char) => char.toUpperCase())}
                   </div>
                   <span>
-                    <i className="fa-light fa-clock"></i> {lesson?.duration}
+                    <i className="fa-solid fa-clock"></i> {lesson?.duration}
                   </span>
                 </div>
               </div>

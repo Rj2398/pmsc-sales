@@ -219,7 +219,7 @@ function PrincipalTeacherProfile() {
                             teachercoming: "teachercoming",
                           }}
                         >
-                          <i className="fa-light fa-eye"></i> View Details
+                          <i className="fa-solid fa-eye"></i> View Details
                         </Link>
                       </td>
                     </tr>
@@ -357,7 +357,7 @@ function PrincipalTeacherProfile() {
                             teacherStudentComing: "teacherStudentComing",
                           }}
                         >
-                          <i className="fa-light fa-eye"></i> View Details
+                          <i className="fa-solid fa-eye"></i> View Details
                         </Link>
                       </td>
                     </tr>
