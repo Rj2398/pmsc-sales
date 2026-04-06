@@ -6,7 +6,7 @@ const Navbar = ({ setShowSidebar }) => {
   const location = useLocation();
 
   const trainingPage = localStorage.getItem("mwlTraining");
-  console.log(trainingPage, "trainingPagetrainingPage");
+  // console.log(trainingPage, "trainingPagetrainingPage");
   const navigate = useNavigate();
   const pathname = location.pathname;
   const {

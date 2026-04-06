@@ -39,6 +39,7 @@ const PrincipalProgressAndScore = () => {
   const { allSchoolList, allTeacherList, reportData, reportLoading } =
     useSelector((state) => state.districtDashboard);
 
+  // console.log(reportData, "reportLoadingreportLoading");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [selectedSchool, setSelectedSchool] = useState([]);
   // const [selectedSchool, setSelectedSchool] = useState(() => {return localStorage.getItem("schoolID") || null;});

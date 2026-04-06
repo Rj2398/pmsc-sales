@@ -13,6 +13,8 @@ function PrincipalTeacherProfile() {
   const dispatch = useDispatch();
   const { teacherData } = useSelector((state) => state.teacherAndStudents);
   const { subjectList } = useSelector((state) => state.principalDashboard);
+
+  // console.log(teacherData, "teacherDatateacherData");
   // const [selectedLevel, setSelectedLevel] = useState(() => {return localStorage.getItem("classLevel") || null;});
   const currentLevel = localStorage.getItem("classLevel");
   const navigate = useNavigate();

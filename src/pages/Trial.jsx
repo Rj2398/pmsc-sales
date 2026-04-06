@@ -101,7 +101,16 @@ const Trial = () => {
               status={item.video_status} // progress | completed | locked
               current_duration={item.current_duration} // in seconds
               onEvent={(event, time, duration) => {
-                console.log("📡 Event:",event,"Time:",time,"Video ID:",item.id, "duration:", duration);
+                console.log(
+                  "📡 Event:",
+                  event,
+                  "Time:",
+                  time,
+                  "Video ID:",
+                  item.id,
+                  "duration:",
+                  duration
+                );
                 // 🔥 Replace with API call if needed
               }}
             />

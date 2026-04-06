@@ -15,7 +15,6 @@ const Dashboard = () => {
   const { classLevels, subDashboard, allSubjects, allDashboardData } =
     useSelector((state) => state.principalDashboard);
 
-  console.log(classLevels, "************");
   const { allSchoolList } = useSelector((state) => state.districtDashboard);
 
   const [selectedLevel, setSelectedLevel] = useState(() => {
@@ -60,7 +59,6 @@ const Dashboard = () => {
         school_id: selectedSchool || "1",
       })
     );
-    console.log(selectedLevel, selectedSchool, "selectedSchoolselectedSchool");
   }, [dispatch, selectedLevel, selectedSchool, loaction.key]);
 
   const handleLevelChange = (event) => {

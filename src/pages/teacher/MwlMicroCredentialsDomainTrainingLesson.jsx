@@ -25,11 +25,11 @@ const MwlMicroCredentialsDomainTrainingLesson = () => {
   const navigate = useNavigate();
   // location.state?.name == "Self-Awareness" ||  location.state?.previousName == "Micro-Credentials & Domain Training",
 
-  console.log(
-    location.state?.name,
-    location.state?.previousName,
-    "Location********"
-  );
+  // console.log(
+  //   location.state?.name,
+  //   location.state?.previousName,
+  //   "Location********"
+  // );
 
   const { mwlContents, mwlessondetail } = useSelector((state) => state?.mwl);
   const [activeVideoId, setActiveVideoId] = React.useState(null);

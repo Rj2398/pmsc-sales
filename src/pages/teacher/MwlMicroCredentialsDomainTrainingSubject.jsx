@@ -17,7 +17,7 @@ const MwlMicroCredentialsDomainTrainingSubject = () => {
   var id = searchParams.get("id");
   const { mwlessondetail } = useSelector((state) => state.mwl);
   const { name, previousName, parentName } = location.state || {};
-  console.log(name, "name***", previousName, parentName);
+  // console.log(name, "name***", previousName, parentName);
   const trainingName =
     !localStorage.getItem("mwlTraining") ||
     localStorage.getItem("mwlTraining") === ""
