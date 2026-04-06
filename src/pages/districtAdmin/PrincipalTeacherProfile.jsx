@@ -278,6 +278,7 @@ function PrincipalTeacherProfile() {
                           to="/district-admin/students/profile"
                           state={{
                             studentId: item.student_id,
+                            subjectId: item.subject_id,
                             teacherStudentComing: "teacherStudentComing",
                           }}
                         >
