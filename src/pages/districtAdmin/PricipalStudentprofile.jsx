@@ -18,6 +18,8 @@ const PricipalStudentprofile = () => {
   const studentId = location?.state?.studentId;
   const subjectId = location?.state?.subjectId;
 
+  console.log("studentid:", studentId, "subjectId:", subjectId);
+
   const principalComing = location?.state?.principalComing;
   const teacherStudentComing = location?.state?.teacherStudentComing;
   const principalstudentBaseline = location?.state?.principalstudentBaseline;
@@ -29,12 +31,16 @@ const PricipalStudentprofile = () => {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [showAllLession, setShowAllLesson] = useState(false);
 
+  console.log(
+    selectedCourses?.length > 0 ? selectedCourses?.[0] : subjectId,
+    "test application***"
+  );
   useEffect(() => {
     dispatch(
       studentProfilePerformance({
         student_id: studentId,
-        subject_id:
-          selectedCourses?.length > 0 ? selectedCourses?.[0] : subjectId,
+        subject_id: subjectId,
+        // selectedCourses?.length > 0 ? selectedCourses?.[0] : subjectId,
       })
     );
   }, [studentId, selectedCourses]);
