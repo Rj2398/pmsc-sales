@@ -183,7 +183,12 @@ const PrincipalProgressAndScore = () => {
     localStorage.setItem("classLevel", newLevel);
   };
 
-  const options = classLevels?.map((level) => ({
+  // const options = classLevels?.map((level) => ({
+  //   value: level?.id,
+  //   label: level?.name,
+  // }));
+
+  const options = classLevels?.slice(1)?.map((level) => ({
     value: level?.id,
     label: level?.name,
   }));

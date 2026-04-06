@@ -31,10 +31,7 @@ const PricipalStudentprofile = () => {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [showAllLession, setShowAllLesson] = useState(false);
 
-  console.log(
-    selectedCourses?.length > 0 ? selectedCourses?.[0] : subjectId,
-    "test application***"
-  );
+  console.log(subjectList, "test application***");
   useEffect(() => {
     dispatch(
       studentProfilePerformance({
