@@ -53,9 +53,11 @@ const PrincipleStudentbaseline = () => {
             {/* <b className="completed">{baslineTest.status}</b> */}
 
             <b className="completed">
-              {baslineTest.status === "not_started"
-                ? "Not Started"
-                : baslineTest.status}
+             {baslineTest.status === "not_started"
+    ? "Not Started"
+    : baslineTest.status === "completed"
+        ? "Completed"
+        : baslineTest.status}
             </b>
           </div>
         </div>
