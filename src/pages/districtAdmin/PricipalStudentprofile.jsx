@@ -36,8 +36,8 @@ const PricipalStudentprofile = () => {
     dispatch(
       studentProfilePerformance({
         student_id: studentId,
-        subject_id: subjectId,
-        // selectedCourses?.length > 0 ? selectedCourses?.[0] : subjectId,
+        subject_id:selectedCourses?.length > 0 ? selectedCourses?.[0] : subjectId,
+       
       })
     );
   }, [studentId, selectedCourses]);
