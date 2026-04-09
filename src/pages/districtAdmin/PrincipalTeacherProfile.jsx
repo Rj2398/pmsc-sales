@@ -426,7 +426,7 @@ function PrincipalTeacherProfile() {
                           <td>
                             <div
                               className={`status ${
-                                item.status == "not_started" && "inactive"
+                                subject.status == "not_started" && "inactive"
                               } ${
                                 [
                                   "In Progress",
