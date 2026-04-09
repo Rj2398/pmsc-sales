@@ -433,7 +433,7 @@ function PrincipalTeacherProfile() {
                                   "in_progress",
                                   "retake",
                                   "review",
-                                ].includes(item.status) && "review"
+                                ].includes(subject.status) && "review"
                               }`}
                             >
                               {subject?.status
