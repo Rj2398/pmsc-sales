@@ -165,7 +165,7 @@ const MwlMicroCredentialsDomainTrainingSubject = () => {
                     />
                   )}
                 </div>
-                <div className="lesson-data">
+                {/* <div className="lesson-data">
                   <h2>
                     <Link
                       to="#"
@@ -259,7 +259,7 @@ const MwlMicroCredentialsDomainTrainingSubject = () => {
                     >
                       {lesson?.title}
 
-                      {/* 3. Show Lock Icon if either condition is met */}
+                    3. Show Lock Icon if either condition is met 
                       {(((name === "Self-Awareness" ||
                         name === "Interpersonal Relationships") &&
                         previousName === "Lesson Prep" &&
@@ -271,23 +271,66 @@ const MwlMicroCredentialsDomainTrainingSubject = () => {
                           index > 0)) &&
                         " 🔒"}
                     </Link>
-                    {/* <Link
-                      to="#"
-                      onClick={() => {
-                        handleStartLesson(
-                          lesson?.id,
-                          lesson?.subject_id,
-                          lesson?.status,
-                          {
-                            isLastLesson:
-                              index === mwlessondetail.lessons.length - 1,
-                          }
-                        );
-                      }}
-                    >
-                      {lesson?.title}
-                    </Link> */}
+                    
                   </h2>
+                  <p>{lesson.desc}</p>
+                </div> */}
+
+
+                <div className="lesson-data">
+                  <h2>
+                    {(() => {
+                      // ✅ Step 1: Valid Category Check
+                      const isValidCategory =
+                        name === "Self-Awareness" ||
+                        name === "Interpersonal Relationships";
+
+                      // ✅ Step 2: Allowed Cases
+                      const isAllowed =
+                        isValidCategory &&
+                        ((previousName === "Lesson Prep" && index <= 1) ||
+                          (previousName ===
+                            "Micro-Credentials & Domain Training" &&
+                            index === 0));
+
+                      // ✅ Step 3: Final Lock Logic
+                      const isLocked = !isAllowed;
+
+                      return (
+                        <Link
+                          to="#"
+                          style={{
+                            opacity: isLocked ? 0.5 : 1,
+                            pointerEvents: isLocked ? "none" : "auto",
+                            filter: isLocked ? "grayscale(1)" : "none",
+                            cursor: isLocked ? "not-allowed" : "pointer",
+                            color: "inherit",
+                            textDecoration: "none",
+                          }}
+                          onClick={(e) => {
+                            if (isLocked) {
+                              e.preventDefault();
+                              return;
+                            }
+
+                            handleStartLesson(
+                              lesson?.id,
+                              lesson?.subject_id,
+                              lesson?.status,
+                              {
+                                isLastLesson:
+                                  index === mwlessondetail.lessons.length - 1,
+                              }
+                            );
+                          }}
+                        >
+                          {lesson?.title}
+                          {isLocked && " 🔒"}
+                        </Link>
+                      );
+                    })()}
+                  </h2>
+
                   <p>{lesson.desc}</p>
                 </div>
 
