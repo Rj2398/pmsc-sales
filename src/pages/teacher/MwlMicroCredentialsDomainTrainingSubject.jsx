@@ -24,6 +24,14 @@ const MwlMicroCredentialsDomainTrainingSubject = () => {
       ? previousName
       : localStorage.getItem("mwlTraining");
 
+  const domainName =
+    !localStorage.getItem("mwlDomain") ||
+    localStorage.getItem("mwlDomain") === ""
+      ? name
+      : localStorage.getItem("mwlDomain");
+
+  // console.log(trainingName, "TrainingName", domainName, "domainName");
+
   useEffect(() => {
     if (id) dispatch(getmwlLesson({ subject_id: id }));
   }, [dispatch, id]);
@@ -276,20 +284,19 @@ const MwlMicroCredentialsDomainTrainingSubject = () => {
                   <p>{lesson.desc}</p>
                 </div> */}
 
-
                 <div className="lesson-data">
                   <h2>
                     {(() => {
                       // ✅ Step 1: Valid Category Check
                       const isValidCategory =
-                        name === "Self-Awareness" ||
-                        name === "Interpersonal Relationships";
+                        domainName === "Self-Awareness" ||
+                        domainName === "Interpersonal Relationships";
 
                       // ✅ Step 2: Allowed Cases
                       const isAllowed =
                         isValidCategory &&
-                        ((previousName === "Lesson Prep" && index <= 1) ||
-                          (previousName ===
+                        ((trainingName === "Lesson Prep" && index <= 1) ||
+                          (trainingName ===
                             "Micro-Credentials & Domain Training" &&
                             index === 0));
 
