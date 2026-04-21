@@ -46,13 +46,13 @@ const SubjectLessondetail = () => {
 
       if (response?.next_lesson_id) {
         setNextLesson(response?.next_lesson_id);
-        navigate(`/principal/student-subject-detail/${subjectId}`);
+        navigate(`/district-admin/student-subject-detail/${subjectId}`);
 
         // navigate(
         //   `/principal/subject-lesson-detail/${subjectId}/${response.next_lesson_id}`
         // );
       } else {
-        navigate(`/principal/student-subject-detail/${subjectId}`);
+        navigate(`/district-admin/student-subject-detail/${subjectId}`);
       }
     } catch (error) {
       navigate(`/principal/student-subject-detail/${subjectId}`);
