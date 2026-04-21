@@ -46,7 +46,6 @@ const SubjectLessondetail = () => {
 
       if (response?.next_lesson_id) {
         setNextLesson(response?.next_lesson_id);
-        // code commented by rajan date21-04-2026
         navigate(`/principal/student-subject-detail/${subjectId}`);
 
         // navigate(
