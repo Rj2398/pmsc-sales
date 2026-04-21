@@ -9,6 +9,7 @@ import {
 import { setCurrentSubject } from "../../redux/slices/student/subjectSlice";
 
 const SubjectDetail = () => {
+  const getTapedDomain = localStorage.getItem("DomainStudent");
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();

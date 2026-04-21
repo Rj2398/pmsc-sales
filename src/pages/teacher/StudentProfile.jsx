@@ -9,6 +9,12 @@ import {
 import EarnedCertificate from "../../components/student/EarnedCertificate";
 
 const StudentProfile = () => {
+  const teacherCurrentSubjectTaped = localStorage.getItem(
+    "teacherCurrentSubject"
+  );
+  const isAllowedDomain =
+    teacherCurrentSubjectTaped === "Self Awareness" ||
+    teacherCurrentSubjectTaped === "Interpersonal Relationships";
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -198,6 +204,15 @@ const StudentProfile = () => {
                         className="progress-bar"
                         style={{
                           width: `${studentProfileInfo?.baseline_score}%`,
+                          backgroundColor: [
+                            "not_started",
+                            "not_completed",
+                            "in_progress",
+                            "retake",
+                            "review"
+                          ].includes(studentProfileInfo?.status)
+                            ? "#F28100"
+                            : "#16a34a",
                         }}
                         role="progressbar"
                         aria-label="Basic example"
@@ -216,7 +231,7 @@ const StudentProfile = () => {
                         studentProfileInfo?.baseline_status
                       ) && "inactive"
                     } ${
-                      ["not_completed", "in_progress"].includes(
+                      ["not_completed", "in_progress", "review", "retake"].includes(
                         studentProfileInfo?.baseline_status
                       ) && "review"
                     }`}
@@ -236,6 +251,12 @@ const StudentProfile = () => {
                       "locked",
                     ].includes(studentProfileInfo?.baseline_status) && (
                       <Link
+                        onClick={(e) => e.preventDefault()}
+                        style={{
+                          color: "#999",
+                          cursor: "not-allowed",
+                          opacity: 0.6,
+                        }}
                         to="/teacher/student-baseline-assessment"
                         state={{
                           studentId: studentId,
@@ -267,7 +288,7 @@ const StudentProfile = () => {
                         studentProfileInfo?.lesson_overall_status
                       ) && "inactive"
                     } ${
-                      ["not_completed", "in_progress", ""].includes(
+                      ["not_completed", "in_progress", "review", "retake", ""].includes(
                         studentProfileInfo?.lesson_overall_status
                       ) && "review"
                     }`}
@@ -281,7 +302,8 @@ const StudentProfile = () => {
               </tr>
 
               {/* This section dynamically generates the dropdown list */}
-              {studentProfileInfo?.lesson_wise?.map((lesson, index) => (
+
+              {/* {studentProfileInfo?.lesson_wise?.map((lesson, index) => (
                 <tr
                   key={index}
                   className="lessons-list"
@@ -348,8 +370,95 @@ const StudentProfile = () => {
                       </td>
                     )}
                 </tr>
-              ))}
+              ))} */}
+              {studentProfileInfo?.lesson_wise?.map((lesson, index) => (
+                <tr
+                  key={index}
+                  className="lessons-list"
+                  style={showAllLession ? {} : { display: "none" }}
+                >
+                  <td>&nbsp;</td>
 
+                  {/* Lesson Name */}
+                  <td>{lesson?.lesson_name}</td>
+
+                  {/* Progress (REAL DATA) */}
+                  <td>
+                    <div className="prog">
+                      <span>{lesson?.percentage}%</span>
+
+                      <div className="progress">
+                        <div
+                          className="progress-bar"
+                          style={{
+                            width: `${lesson?.percentage}%`,
+                            backgroundColor: [
+                              "not_started",
+                              "not_completed",
+                              "in_progress",
+                              "review",
+                              "retake"
+                            ].includes(lesson?.status)
+                              ? "#F28100"
+                              : "#16a34a",
+                          }}
+                          role="progressbar"
+                          aria-label={`Progress for Lesson ${lesson?.lesson_id}`}
+                          aria-valuenow={lesson?.percentage}
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Status (AS IT IS) */}
+                  <td>
+                    <div
+                      className={`status ${
+                        ["not_started", "locked"].includes(lesson?.status) &&
+                        "inactive"
+                      } ${
+                        ["not_completed", "in_progress", "review", "retake"].includes(
+                          lesson?.status
+                        ) && "review"
+                      }`}
+                    >
+                      {lesson?.status
+                        ?.replace(/_/g, " ")
+                        ?.replace(/\b\w/g, (char) => char.toUpperCase())}
+                    </div>
+                  </td>
+
+                  {/* View Full Details (ONLY THIS DISABLED) */}
+                  {showFullDetails && (
+                    <td>
+                      <Link
+                        to={
+                          isAllowedDomain && index < 2
+                            ? `/teacher/student-lesson-quiz?lessonId=${lesson?.lesson_id}&studentId=${studentId}`
+                            : "#"
+                        }
+                        onClick={(e) => {
+                          if (!(isAllowedDomain && index < 2)) {
+                            e.preventDefault(); // ❌ disable click
+                          }
+                        }}
+                        style={{
+                          color: isAllowedDomain && index < 2 ? "" : "#999",
+                          cursor:
+                            isAllowedDomain && index < 2
+                              ? "pointer"
+                              : "not-allowed",
+                          opacity: isAllowedDomain && index < 2 ? 1 : 0.6,
+                        }}
+                      >
+                        <i className="fa-solid fa-eye"></i> View Full Details
+                      </Link>
+                    </td>
+                  )}
+                </tr>
+              ))}
               <tr>
                 <td>Summative Assessment </td>
                 <td>---</td>
@@ -365,6 +474,8 @@ const StudentProfile = () => {
                             "not_started",
                             "not_completed",
                             "in_progress",
+                            "review",
+                            "retake"
                           ].includes(studentProfileInfo?.summative_status)
                             ? "#F28100"
                             : "#16a34a",
@@ -385,7 +496,7 @@ const StudentProfile = () => {
                         studentProfileInfo?.summative_status
                       ) && "inactive"
                     } ${
-                      ["not_completed", "in_progress"].includes(
+                      ["not_completed", "in_progress", "review", "retake"].includes(
                         studentProfileInfo?.summative_status
                       ) && "review"
                     }`}
@@ -405,6 +516,12 @@ const StudentProfile = () => {
                       "locked",
                     ].includes(studentProfileInfo?.summative_status) && (
                       <Link
+                        onClick={(e) => e.preventDefault()}
+                        style={{
+                          color: "#999",
+                          cursor: "not-allowed",
+                          opacity: 0.6,
+                        }}
                         to="/teacher/student-summative-assessment"
                         state={{
                           studentId: studentId,

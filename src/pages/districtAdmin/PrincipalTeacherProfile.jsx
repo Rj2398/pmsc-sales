@@ -14,7 +14,7 @@ function PrincipalTeacherProfile() {
   const { teacherData } = useSelector((state) => state.teacherAndStudents);
   const { subjectList } = useSelector((state) => state.principalDashboard);
 
-  // console.log(teacherData, "teacherDatateacherData");
+  console.log(teacherData, "teacherDatateacherData");
   // const [selectedLevel, setSelectedLevel] = useState(() => {return localStorage.getItem("classLevel") || null;});
   const currentLevel = localStorage.getItem("classLevel");
   const navigate = useNavigate();
@@ -72,6 +72,8 @@ function PrincipalTeacherProfile() {
     teacherData?.teacher_training?.filter((teacher) =>
       teacher?.level_name?.toLowerCase().includes(searchQuery3.toLowerCase())
     ) || [];
+
+  // console.log(filterTeacherTraining, "**************");
 
   useEffect(() => {
     if (teacherData) {
@@ -149,6 +151,7 @@ function PrincipalTeacherProfile() {
                       <td>{item?.subject}</td>
                       {/* <td>{item?.subject_id}</td> */}
                       <td>{item?.students}</td>
+                      {console.log(item, "itemitem")}
                       <td>
                         <div className="prog">
                           <span> {item?.completion}% </span>
@@ -176,6 +179,7 @@ function PrincipalTeacherProfile() {
                           to={`/district-admin/class/detail/${item?.subject_id}?teacherId=${teacherId}`}
                           state={{
                             subjectId: item?.subject_id,
+                            studentId: item.student_id,
                             teachercoming: "teachercoming",
                           }}
                         >
@@ -423,6 +427,7 @@ function PrincipalTeacherProfile() {
                               </div>
                             </div>
                           </td> */}
+
                           <td>
                             <div
                               className={`status ${

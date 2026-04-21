@@ -491,7 +491,16 @@ const ProgressAndScore = () => {
                         <div className="progress">
                           <div
                             className="progress-bar"
-                            style={{ width: `${item?.percentage}%` }}
+                            style={{ width: `${item?.percentage}%`,
+                            backgroundColor: [
+                              "not_started",
+                              "not_completed",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item?.status)
+                              ? "#F28100"
+                              : "#16a34a", }}
                             role="progressbar"
                             aria-label="Basic example"
                             aria-valuenow={item?.percentage}
@@ -547,6 +556,15 @@ const ProgressAndScore = () => {
                       className="progress-bar"
                       style={{
                         width: `${subjectWiseQuizInfo?.[0]?.summative_score}%`,
+                        backgroundColor: [
+                          "not_started",
+                          "not_completed",
+                          "in_progress",
+                          "retake",
+                          "review"
+                        ].includes(subjectWiseQuizInfo?.[0]?.summative_status)
+                          ? "#F28100"
+                          : "#16a34a",
                       }}
                       role="progressbar"
                       aria-label="Basic example"

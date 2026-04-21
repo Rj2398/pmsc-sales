@@ -4,6 +4,14 @@ import { Link, useLocation, useParams } from "react-router";
 import { getSubjectInfo } from "../../redux/slices/principal/principalDashboardSlice";
 
 const PrincipleSubjectDetails = () => {
+  const principalTapedSub = localStorage.getItem("principalCurrentSubject");
+  const isAllowedDomain =
+    principalTapedSub === "Self Awareness" ||
+    principalTapedSub === "Interpersonal Relationships";
+
+  //
+  //
+
   const location = useLocation();
   const paramData = useParams();
   const dispatch = useDispatch();
@@ -49,7 +57,7 @@ const PrincipleSubjectDetails = () => {
 						</div> --> */}
           </div>
         </div>
-        <div className="assessment-result">
+        {/* <div className="assessment-result">
           <h6>Baseline Assessment</h6>
           <div className="sub-lessons-list-in drop-btn">
             <div className="lesson-num-ico">
@@ -64,14 +72,45 @@ const PrincipleSubjectDetails = () => {
               <p>{subjectInfo?.subject?.description}</p>
             </div>
             <div className="manage-sub-cta justify-content-end">
-              {/* <Link to="/principal/subject-baseline-detail" >View Content</Link> */}
               <Link to={`/district-admin/subject-baseline-detail/${subjectId}`}>
                 View Content
               </Link>
-              {/* <!-- <button type="button" href="javascript:void(0);" data-bs-target="#delete-popup"
-								data-bs-toggle="modal">
-								<img src="../images/delete-icon.svg" alt=""/>
-							</button> --> */}
+              
+            </div>
+          </div>
+        </div> */}
+
+        <div
+          className="assessment-result"
+          style={{
+            opacity: 0.5,
+            pointerEvents: "none",
+            cursor: "not-allowed",
+          }}
+        >
+          <h6>Baseline Assessment</h6>
+
+          <div className="sub-lessons-list-in drop-btn">
+            <div className="lesson-num-ico">
+              <span></span>
+              <img
+                src="/images/subject-detail/sub-lessons/locked-not-started.svg"
+                alt=""
+              />
+            </div>
+
+            <div className="lesson-data">
+              <h2>{subjectInfo?.subject?.Subject}-Baseline Assessment</h2>
+              <p>{subjectInfo?.subject?.description}</p>
+            </div>
+
+            <div className="manage-sub-cta justify-content-end">
+              <Link
+                to={`/district-admin/subject-baseline-detail/${subjectId}`}
+                onClick={(e) => e.preventDefault()} // ❌ extra safety
+              >
+                View Content
+              </Link>
             </div>
           </div>
         </div>
@@ -91,7 +130,59 @@ const PrincipleSubjectDetails = () => {
 				</div> --> */}
         <div className="sub-lessons-list">
           <h3> Lessons</h3>
-          {/* <!-- L --> */}
+          {subjectInfo?.lessons?.map((item, index) => (
+            <div
+              className="sub-lessons-list-in"
+              key={index}
+              style={{
+                opacity: isAllowedDomain && index < 2 ? 1 : 0.5,
+                pointerEvents: isAllowedDomain && index < 2 ? "auto" : "none",
+                cursor:
+                  isAllowedDomain && index < 2 ? "pointer" : "not-allowed",
+              }}
+            >
+              {/* Left */}
+              <div className="lesson-num-ico">
+                <span>{index + 1}</span>
+                <img
+                  src={`/images/subject-detail/sub-lessons/${
+                    isAllowedDomain && index < 2
+                      ? "in-progress"
+                      : "locked-not-started"
+                  }.svg`}
+                  alt=""
+                />
+              </div>
+
+              {/* Middle */}
+              <div className="lesson-data">
+                <h2>{item?.title}</h2>
+                <p>{item?.desc}</p>
+              </div>
+
+              {/* Right */}
+              <div className="manage-sub-cta">
+                <Link
+                  to={`/district-admin/subject-lesson-detail/${subjectId}/${item?.id}`}
+                  onClick={(e) => {
+                    if (!(isAllowedDomain && index < 2)) {
+                      e.preventDefault(); // ❌ extra safety
+                    }
+                  }}
+                >
+                  View Content
+                </Link>
+
+                <div className="sub-lessons-list-in-ryt">
+                  <span>
+                    <i className="fa-solid fa-clock"></i> {item?.duration}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* 
           {subjectInfo?.lessons?.map((item, index) => (
             <div className="sub-lessons-list-in" key={index}>
               <div className="lesson-num-ico">
@@ -119,9 +210,46 @@ const PrincipleSubjectDetails = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
-        <div className="assessment-result ">
+        <div
+          className="assessment-result"
+          style={{
+            opacity: 0.5,
+            pointerEvents: "none",
+            cursor: "not-allowed",
+          }}
+        >
+          <h6>Summative Assessment</h6>
+
+          <div className="sub-lessons-list-in drop-btn">
+            <div className="lesson-num-ico" style={{ width: "100%" }}>
+              <span></span>
+
+              <img
+                src="/images/subject-detail/sub-lessons/locked-not-started.svg"
+                alt=""
+              />
+
+              <div className="lesson-data">
+                <h2>{subjectInfo?.subject?.Subject}-Summative Assessment</h2>
+                <p>{subjectInfo?.subject?.description}</p>
+              </div>
+
+              <div className="manage-sub-cta justify-content-end">
+                <Link
+                  to={`/district-admin/student-subject-summative/${subjectId}`}
+                  state={{ subjectId: subjectId }}
+                  onClick={(e) => e.preventDefault()} // ❌ extra safety
+                >
+                  View Content
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="assessment-result ">
           <h6>Summative Assessment</h6>
           <div className="sub-lessons-list-in drop-btn ">
             <div className="lesson-num-ico" style={{ width: "100%" }}>
@@ -130,15 +258,12 @@ const PrincipleSubjectDetails = () => {
                 src="/images/subject-detail/sub-lessons/locked-not-started.svg"
                 alt=""
               />
-              {/* <!-- <img src="/images/subject-detail/sub-lessons/locked-not-started.svg" alt=""/> -->
-						</div> */}
+
               <div className="lesson-data ">
                 <h2>{subjectInfo?.subject?.Subject}-Summative Assessment</h2>
                 <p>{subjectInfo?.subject?.description}</p>
               </div>
-              {/* <!-- <div className="start-quiz-cta">
-							<a href="summative-assessment.html">Start Quiz</a>
-						</div> --> */}
+
               <div className="manage-sub-cta justify-content-end">
                 <Link
                   to={`/district-admin/student-subject-summative/${subjectId}`}
@@ -146,20 +271,10 @@ const PrincipleSubjectDetails = () => {
                 >
                   View Content
                 </Link>
-                {/* <!-- <button type="button" href="javascript:void(0);" data-bs-target="#delete-popup"
-								data-bs-toggle="modal">
-								<img src="../images/delete-icon.svg" alt=""/>
-							</button> --> */}
               </div>
-              {/* <!-- <div className="sub-lessons-list-in-ryt">
-							<div className="status completed">Completed</div>
-							<div className="status">Locked</div>
-							<div className="status retake">Retake Quiz</div>
-							<span>&nbsp;</span>
-						</div> --> */}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

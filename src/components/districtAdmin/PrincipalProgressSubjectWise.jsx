@@ -243,6 +243,15 @@ const PrincipalProgressSubjectWise = ({
                           width: `${
                             subjectWizeScoreData?.[0]?.baseline_score || 0
                           }%`,
+                          backgroundColor: [
+                            "not_started",
+                            "not_completed",
+                            "in_progress",
+                            "retake",
+                            "review"
+                          ].includes(subjectWizeScoreData?.status)
+                            ? "#F28100"
+                            : "#16a34a",
                         }}
                         role="progressbar"
                         aria-label="Basic example"
@@ -259,7 +268,7 @@ const PrincipalProgressSubjectWise = ({
                       subjectWizeScoreData?.[0]?.baseline_status ==
                         "not_started" && "inactive"
                     } ${
-                      ["not_completed", "in_progress"].includes(
+                      ["not_completed", "in_progress", "review", "retake"].includes(
                         subjectWizeScoreData?.[0]?.baseline_status
                       ) && "review"
                     }`}
@@ -313,7 +322,7 @@ const PrincipalProgressSubjectWise = ({
                           "locked") &&
                       "inactive"
                     } ${
-                      ["not_completed", "in_progress", "locked"].includes(
+                      ["not_completed", "in_progress", "locked", "review", "retake"].includes(
                         subjectWizeScoreData?.[0]?.lesson_overall_status
                       ) && "review"
                     }`}
@@ -342,7 +351,17 @@ const PrincipalProgressSubjectWise = ({
                       <div className="progress">
                         <div
                           className="progress-bar"
-                          style={{ width: `${item?.percentage || 0}%` }}
+                          style={{ width: `${item?.percentage || 0}%`,
+                          backgroundColor: [
+                            "not_started",
+                            "not_completed",
+                            "in_progress",
+                            "retake",
+                            "review"
+                          ].includes(item?.status)
+                            ? "#F28100"
+                            : "#16a34a",
+                         }}
                           role="progressbar"
                           aria-label="Basic example"
                           aria-valuenow="75"
@@ -355,7 +374,7 @@ const PrincipalProgressSubjectWise = ({
                   <td>
                     <div
                       className={`status ${
-                        ["not_completed", "in_progress"].includes(
+                        ["not_completed", "in_progress", "review", "retake"].includes(
                           item?.status
                         ) && "review"
                       } ${
@@ -407,6 +426,8 @@ const PrincipalProgressSubjectWise = ({
                             "not_started",
                             "not_completed",
                             "in_progress",
+                            "review",
+                            "retake"
                           ].includes(
                             subjectWizeScoreData?.[0]?.summative_status
                           )
@@ -431,7 +452,7 @@ const PrincipalProgressSubjectWise = ({
                       subjectWizeScoreData?.[0]?.summative_status == "locked" &&
                       "inactive"
                     } ${
-                      ["not_completed", "in_progress"].includes(
+                      ["not_completed", "in_progress", "review", "retake"].includes(
                         subjectWizeScoreData?.[0]?.summative_status
                       ) && "review"
                     }`}

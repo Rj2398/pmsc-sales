@@ -3,7 +3,7 @@ import WelcomeDashboard from "../../components/student/WelcomeDashboard";
 import YourSubjects from "../../components/student/YourSubjects";
 
 const Dashboard = () => {
-  const studentId = JSON.parse(localStorage.getItem("pmsc"))?.id
+  const studentId = JSON.parse(localStorage.getItem("pmsc"))?.id;
 
   return (
     <>
@@ -11,7 +11,7 @@ const Dashboard = () => {
       <div className="subjects-lesson-progress">
         <div className="row">
           <YourSubjects />
-          <EarnedCertificate studentId={studentId}/>
+          <EarnedCertificate studentId={studentId} />
         </div>
       </div>
     </>

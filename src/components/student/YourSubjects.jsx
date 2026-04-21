@@ -6,27 +6,29 @@ import { getAllSubject } from "../../redux/slices/student/subjectSlice";
 const YourSubjects = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { allSubject,classLevel } = useSelector((state) => state.subject);
+  const { allSubject, classLevel } = useSelector((state) => state.subject);
 
   useEffect(() => {
     dispatch(getAllSubject());
   }, [dispatch]);
 
   const handleNavigate = (subject) => {
-    if(subject?.baseline_assessment == "Completed") {
+    if (subject?.baseline_assessment == "Completed") {
       // navigate("/student/subject-detail", { state: { subjectId: subject?.id } });
       navigate(`/student/subject-detail?subjectId=${subject?.id}`);
       return;
     }
-    navigate(`/student/baseline-assignment/${subject?.id}`, { state: { subjectId: subject?.id } });
-  }
+    navigate(`/student/baseline-assignment/${subject?.id}`, {
+      state: { subjectId: subject?.id },
+    });
+  };
 
   return (
     <>
       <div className="col-lg-12">
         <div className="my-subjects">
           <div className="my-subjects-head">
-            <h3 style={{textTransform:"capitalize"}}>
+            <h3 style={{ textTransform: "capitalize" }}>
               <img src="/images/dashboard/book-icon.svg" alt="" /> Your Subjects
               ({classLevel || "Ruby"} Level)
             </h3>
@@ -45,7 +47,8 @@ const YourSubjects = () => {
                 </div>
                 <div className="progress">
                   <div
-                    className={`progress-bar`} style={{width : `${subject?.lesson_completion}%`}}
+                    className={`progress-bar`}
+                    style={{ width: `${subject?.lesson_completion}%` }}
                     role="progressbar"
                     aria-label="Basic example"
                     aria-valuenow={subject?.lesson_completion}
@@ -55,35 +58,88 @@ const YourSubjects = () => {
                 </div>
                 <ul>
                   <li>
-                    <p> <img src="/images/dashboard/subjects/circle-tick.svg" alt="tick" /> Baseline Assessment </p>
-                    <span className={subject?.baseline_assessment?.toLowerCase()}> {subject?.baseline_assessment} </span>
-                  </li>
-                  <li>
-                    <p> <img src="/images/dashboard/subjects/document.svg" alt="document" /> Lessons </p>
-                    <span> {subject?.complete_lesson}/{subject?.total_lesson} </span>
+                    <p>
+                      {" "}
+                      <img
+                        src="/images/dashboard/subjects/circle-tick.svg"
+                        alt="tick"
+                      />{" "}
+                      Baseline Assessment{" "}
+                    </p>
+                    <span
+                      className={subject?.baseline_assessment?.toLowerCase()}
+                    >
+                      {" "}
+                      {subject?.baseline_assessment}{" "}
+                    </span>
                   </li>
                   <li>
                     <p>
-                      <img src={ subject?.summative_assessment === "Locked" ? "/images/dashboard/subjects/locked.svg" : "/images/dashboard/subjects/circle-tick.svg" } alt={subject?.summative_assessment} />
+                      {" "}
+                      <img
+                        src="/images/dashboard/subjects/document.svg"
+                        alt="document"
+                      />{" "}
+                      Lessons{" "}
+                    </p>
+                    <span>
+                      {" "}
+                      {subject?.complete_lesson}/{subject?.total_lesson}{" "}
+                    </span>
+                  </li>
+                  <li>
+                    <p>
+                      <img
+                        src={
+                          subject?.summative_assessment === "Locked"
+                            ? "/images/dashboard/subjects/locked.svg"
+                            : "/images/dashboard/subjects/circle-tick.svg"
+                        }
+                        alt={subject?.summative_assessment}
+                      />
                       Summative Assessment
                     </p>
-                    <span className={subject?.summative_assessment?.toLowerCase()}> {subject?.summative_assessment} </span>
+                    <span
+                      className={subject?.summative_assessment?.toLowerCase()}
+                    >
+                      {" "}
+                      {subject?.summative_assessment}{" "}
+                    </span>
                   </li>
                 </ul>
 
                 {subject?.lesson_completion === 100 &&
                 subject?.summative_assessment === "Completed" ? (
-                  <Link to="#" className="completed-cta" onClick={(e) => {
-                    e.preventDefault(); 
-                    handleNavigate(subject);
-                    }}>
-                    <img src="/images/dashboard/subjects/circle-tick.svg" alt="Completed" /> Completed
+                  <Link
+                    to="#"
+                    className="completed-cta"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      localStorage.setItem(
+                        "DomainStudent",
+                        String(subject?.name)
+                      );
+                      handleNavigate(subject);
+                    }}
+                  >
+                    <img
+                      src="/images/dashboard/subjects/circle-tick.svg"
+                      alt="Completed"
+                    />{" "}
+                    Completed
                   </Link>
                 ) : (
-                  <Link to={"#"} onClick={(e) => {
-                    e.preventDefault(); 
-                    handleNavigate(subject);
-                    }}>
+                  <Link
+                    to={"#"}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      localStorage.setItem(
+                        "DomainStudent",
+                        String(subject?.name)
+                      );
+                      handleNavigate(subject);
+                    }}
+                  >
                     Continue Learning
                     <i className="fa-solid fa-angle-right"></i>
                   </Link>

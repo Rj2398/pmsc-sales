@@ -43,9 +43,11 @@ const SubjectLessonDetail = () => {
 
       if (response?.next_lesson_id) {
         setNextLesson(response?.next_lesson_id);
-        navigate(
-          `/teacher/subject-lesson-detail/${subjectId}/${response.next_lesson_id}`
-        );
+        // commented date 21-04-2026 to move next lesson by Rajan
+        // navigate(
+        //   `/teacher/subject-lesson-detail/${subjectId}/${response.next_lesson_id}`
+        // );
+        navigate(`/teacher/subject-detail/${subjectId}`);
       } else {
         navigate(`/teacher/subject-detail/${subjectId}`);
       }

@@ -307,6 +307,15 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                           width: `${
                             subjectWizeScoreData?.[0]?.baseline_score || 0
                           }%`,
+                          backgroundColor: [
+                            "not_started",
+                            "not_completed",
+                            "in_progress",
+                            "retake",
+                            "review"
+                          ].includes(subjectWizeScoreData?.[0]?.baseline_status)
+                            ? "#F28100"
+                            : "#16a34a",
                         }}
                         role="progressbar"
                         aria-label="Basic example"
@@ -325,7 +334,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         !subjectWizeScoreData?.[0]?.baseline_status) &&
                       "inactive"
                     } ${
-                      ["not_completed", "in_progress"].includes(
+                      ["not_completed", "in_progress", "review", "retake"].includes(
                         subjectWizeScoreData?.[0]?.baseline_status
                       ) && "review"
                     }`}
@@ -381,7 +390,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         !subjectWizeScoreData?.[0]?.baseline_status) &&
                       "inactive"
                     } ${
-                      ["not_started", "not_completed", "in_progress"].includes(
+                      ["not_started", "not_completed", "in_progress", "review", "retake"].includes(
                         subjectWizeScoreData?.[0]?.lesson_overall_status
                       ) && "review"
                     }`}
@@ -410,7 +419,17 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                       <div className="progress">
                         <div
                           className="progress-bar"
-                          style={{ width: `${item?.percentage || 0}%` }}
+                          style={{ width: `${item?.percentage || 0}%`,
+                          backgroundColor: [
+                            "not_started",
+                            "not_completed",
+                            "in_progress",
+                            "retake",
+                            "review"
+                          ].includes(item?.status)
+                            ? "#F28100"
+                            : "#16a34a",
+                         }}
                           role="progressbar"
                           aria-label="Basic example"
                           aria-valuenow="75"
@@ -426,7 +445,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         (item?.status == "locked" || !item?.status) &&
                         "inactive"
                       } ${
-                        ["not_completed", "in_progress"].includes(
+                        ["not_completed", "in_progress", "review", "retake"].includes(
                           item?.status
                         ) && "review"
                       } ${item?.status == "not_started" && "inactive"}`}
@@ -474,7 +493,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                             "not_started",
                             "not_completed",
                             "in_progress",
-                            "locked",
+                            "locked", "review", "retake",
                           ].includes(
                             subjectWizeScoreData?.[0]?.summative_status
                           )
@@ -498,7 +517,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         !subjectWizeScoreData?.[0]?.summative_status) &&
                       "inactive"
                     }  ${
-                      ["not_completed", "in_progress"].includes(
+                      ["not_completed", "in_progress", "review", "retake"].includes(
                         subjectWizeScoreData?.[0]?.summative_status
                       ) && "review"
                     }`}

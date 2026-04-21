@@ -288,6 +288,15 @@ const PrincipalTrainingCompletion = ({
                               width: `${
                                 trainingData?.overall_completion || 0
                               }%`,
+                              backgroundColor: [
+                                // "not_started",
+                                "not_completed",
+                                "in_progress",
+                                "retake",
+                                "review"
+                              ].includes(trainingData?.status)
+                                ? "#F28100"
+                                : "#16a34a",
                             }}
                             role="progressbar"
                             aria-label="Basic example"
@@ -321,6 +330,8 @@ const PrincipalTrainingCompletion = ({
                                 "not_started",
                                 "not_completed",
                                 "in_progress",
+                                "review",
+                                "retake"
                               ].includes(trainingData?.overall_completion) &&
                               "review"
                             }`}
