@@ -13,6 +13,11 @@ const PrincipalProgressSubjectWise = ({
   selectedSchool,
 }) => {
   const dispatch = useDispatch();
+
+  const principalTapedSub = localStorage.getItem("principalCurrentSubject");
+  const isAllowedDomain =
+    principalTapedSub === "Self Awareness" ||
+    principalTapedSub === "Interpersonal Relationships";
   const currentLevel = localStorage.getItem("classLevel");
 
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -101,7 +106,7 @@ const PrincipalProgressSubjectWise = ({
     <div className="my-subjects">
       <div className="top-head">
         <div className="top-head-in">
-          <h1 className="mb-0"> Scores by Student & Subject </h1>
+          <h1 className="mb-0"> Scores by Student & Subject11 </h1>
         </div>
         <div className="influ-btns ms-auto">
           {/* Student Dropdown */}
@@ -248,7 +253,7 @@ const PrincipalProgressSubjectWise = ({
                             "not_completed",
                             "in_progress",
                             "retake",
-                            "review"
+                            "review",
                           ].includes(subjectWizeScoreData?.status)
                             ? "#F28100"
                             : "#16a34a",
@@ -268,9 +273,13 @@ const PrincipalProgressSubjectWise = ({
                       subjectWizeScoreData?.[0]?.baseline_status ==
                         "not_started" && "inactive"
                     } ${
-                      ["not_completed", "in_progress", "review", "retake"].includes(
-                        subjectWizeScoreData?.[0]?.baseline_status
-                      ) && "review"
+                      [
+                        "not_completed",
+                        "in_progress",
+                        "review",
+                        "retake",
+                      ].includes(subjectWizeScoreData?.[0]?.baseline_status) &&
+                      "review"
                     }`}
                   >
                     {subjectWizeScoreData?.[0]?.baseline_status
@@ -288,6 +297,12 @@ const PrincipalProgressSubjectWise = ({
                 ].includes(subjectWizeScoreData?.[0]?.baseline_status) && (
                   <td>
                     <Link
+                      style={{
+                        color: "#999",
+                        cursor: "not-allowed",
+                        opacity: 0.6,
+                      }}
+                      onClick={(e) => e.preventDefault()}
                       to="/district-admin/progress-student-baseline-assessment"
                       state={{
                         studentId: selectedStudents?.[0],
@@ -322,7 +337,13 @@ const PrincipalProgressSubjectWise = ({
                           "locked") &&
                       "inactive"
                     } ${
-                      ["not_completed", "in_progress", "locked", "review", "retake"].includes(
+                      [
+                        "not_completed",
+                        "in_progress",
+                        "locked",
+                        "review",
+                        "retake",
+                      ].includes(
                         subjectWizeScoreData?.[0]?.lesson_overall_status
                       ) && "review"
                     }`}
@@ -337,7 +358,7 @@ const PrincipalProgressSubjectWise = ({
               </tr>
 
               {/* <!-- LESSONS-DROPDOWN-LIST --> */}
-              {subjectWizeScoreData?.[0]?.lesson_wise?.map((item, index) => (
+              {/* {subjectWizeScoreData?.[0]?.lesson_wise?.map((item, index) => (
                 <tr
                   className="lessons-list"
                   style={{ display: lessonToggle ? "" : "none" }}
@@ -351,17 +372,18 @@ const PrincipalProgressSubjectWise = ({
                       <div className="progress">
                         <div
                           className="progress-bar"
-                          style={{ width: `${item?.percentage || 0}%`,
-                          backgroundColor: [
-                            "not_started",
-                            "not_completed",
-                            "in_progress",
-                            "retake",
-                            "review"
-                          ].includes(item?.status)
-                            ? "#F28100"
-                            : "#16a34a",
-                         }}
+                          style={{
+                            width: `${item?.percentage || 0}%`,
+                            backgroundColor: [
+                              "not_started",
+                              "not_completed",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item?.status)
+                              ? "#F28100"
+                              : "#16a34a",
+                          }}
                           role="progressbar"
                           aria-label="Basic example"
                           aria-valuenow="75"
@@ -374,9 +396,12 @@ const PrincipalProgressSubjectWise = ({
                   <td>
                     <div
                       className={`status ${
-                        ["not_completed", "in_progress", "review", "retake"].includes(
-                          item?.status
-                        ) && "review"
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "review",
+                          "retake",
+                        ].includes(item?.status) && "review"
                       } ${
                         (item?.status == "not_started" ||
                           item?.status == "locked") &&
@@ -405,6 +430,96 @@ const PrincipalProgressSubjectWise = ({
                     </td>
                   )}
                 </tr>
+              ))} */}
+
+              {subjectWizeScoreData?.[0]?.lesson_wise?.map((item, index) => (
+                <tr
+                  className="lessons-list"
+                  style={{ display: lessonToggle ? "" : "none" }}
+                  key={index}
+                >
+                  <td>&nbsp;</td>
+
+                  <td>{item?.lesson_name}</td>
+
+                  {/* Progress */}
+                  <td>
+                    <div className="prog">
+                      <span> {item?.percentage || 0}% </span>
+                      <div className="progress">
+                        <div
+                          className="progress-bar"
+                          style={{
+                            width: `${item?.percentage || 0}%`,
+                            backgroundColor: [
+                              "not_started",
+                              "not_completed",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item?.status)
+                              ? "#F28100"
+                              : "#16a34a",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Status */}
+                  <td>
+                    <div
+                      className={`status ${
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "review",
+                          "retake",
+                        ].includes(item?.status) && "review"
+                      } ${
+                        (item?.status === "not_started" ||
+                          item?.status === "locked") &&
+                        "inactive"
+                      }`}
+                    >
+                      {item?.status
+                        ?.replace(/_/g, " ")
+                        .replace(/\b\w/g, (char) => char.toUpperCase()) ||
+                        "Not Started"}
+                    </div>
+                  </td>
+
+                  {/* ✅ View Full Details (VISIBLE BUT DISABLED) */}
+                  <td>
+                    <Link
+                      to={
+                        isAllowedDomain && index < 2
+                          ? `/district-admin/progress-student-lesson-quiz?lessonId=${item?.lesson_id}&studentId=${selectedStudents?.[0]}`
+                          : "#"
+                      }
+                      state={
+                        isAllowedDomain && index < 2
+                          ? { param: "/teacher/progress-and-score" }
+                          : {}
+                      }
+                      onClick={(e) => {
+                        if (!(isAllowedDomain && index < 2)) {
+                          e.preventDefault(); // ❌ disable click
+                        }
+                      }}
+                      style={{
+                        color: isAllowedDomain && index < 2 ? "" : "#999",
+                        cursor:
+                          isAllowedDomain && index < 2
+                            ? "pointer"
+                            : "not-allowed",
+                        opacity: isAllowedDomain && index < 2 ? 1 : 0.6,
+                      }}
+                    >
+                      <i className="fa-solid fa-eye"></i> View Full Details
+                    </Link>
+                  </td>
+                </tr>
               ))}
               <tr>
                 <td>Summative Assessment</td>
@@ -427,7 +542,7 @@ const PrincipalProgressSubjectWise = ({
                             "not_completed",
                             "in_progress",
                             "review",
-                            "retake"
+                            "retake",
                           ].includes(
                             subjectWizeScoreData?.[0]?.summative_status
                           )
@@ -452,9 +567,13 @@ const PrincipalProgressSubjectWise = ({
                       subjectWizeScoreData?.[0]?.summative_status == "locked" &&
                       "inactive"
                     } ${
-                      ["not_completed", "in_progress", "review", "retake"].includes(
-                        subjectWizeScoreData?.[0]?.summative_status
-                      ) && "review"
+                      [
+                        "not_completed",
+                        "in_progress",
+                        "review",
+                        "retake",
+                      ].includes(subjectWizeScoreData?.[0]?.summative_status) &&
+                      "review"
                     }`}
                   >
                     {subjectWizeScoreData?.[0]?.summative_status
@@ -472,6 +591,12 @@ const PrincipalProgressSubjectWise = ({
                 ].includes(subjectWizeScoreData?.[0]?.summative_status) && (
                   <td>
                     <Link
+                      style={{
+                        color: "#999",
+                        cursor: "not-allowed",
+                        opacity: 0.6,
+                      }}
+                      onClick={(e) => e.preventDefault()}
                       to="/district-admin/progress-student-summative-assessment"
                       state={{
                         studentId: selectedStudents?.[0],
