@@ -365,7 +365,8 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                       : "Not Started"}
                   </div>
                 </td>
-                {!subjectWizeScoreData?.[0]?.baseline_status ||
+                {/* working code commented by rajan 24-04-2026 */}
+                {/* {!subjectWizeScoreData?.[0]?.baseline_status ||
                   (![
                     "not_started",
                     "not_completed",
@@ -386,10 +387,31 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                           subjectId: selectedCourses?.[0],
                         }}
                       >
-                        <i className="fa-solid fa-eye"></i> View Full Details
+                        <i className="fa-solid fa-eye"></i> View Full Details11
                       </Link>
                     </td>
-                  ))}
+                  ))} */}
+
+                <td>
+                  <span
+                    style={{
+                      color: "#b1b1b1", // Gray color for text and icon
+                      cursor: "not-allowed", // Not allowed cursor
+                      opacity: 0.6, // Grayout effect
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontWeight: "400",
+                      pointerEvents: "none", // Bilkul click nahi hoga
+                    }}
+                  >
+                    <i
+                      className="fa-solid fa-eye"
+                      style={{ color: "#b1b1b1" }}
+                    ></i>
+                    View Full Details
+                  </span>
+                </td>
               </tr>
               <tr>
                 <td>Lesson Quizzes</td>
@@ -565,36 +587,41 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                     </div>
                   </td>
 
-                  {/* ---- BUTTON VISIBILITY LOGIC (NAYA LOGIC YAHAN HAI) ---- */}
-                  {![
-                    "not_started",
-                    "not_completed",
-                    "in_progress",
-                    "locked",
-                  ].includes(item?.status) && (
-                    <td>
-                      {isAllowedDomain && index < 2 ? (
-                        /* ACTIVE STATE: Sirf tab dikhega jab allowed domain true ho aur pehle 2 lesson ho */
-                        <Link
-                          to={`/teacher/progress-student-lesson-quiz?lessonId=${item?.lesson_id}&studentId=${selectedStudents?.[0]}`}
-                          state={{ param: "/teacher/progress-and-score" }}
-                        >
-                          <i className="fa-solid fa-eye"></i> View Full Details
-                        </Link>
-                      ) : (
-                        /* DISABLED STATE: Baaki sabhi cases me button grey/disable rahega */
-                        <span
-                          style={{
-                            color: "#999", // Grey color disable dikhane ke liye
-                            cursor: "not-allowed", // Cursor change karega
-                            opacity: 0.7,
-                          }}
-                        >
-                          <i className="fa-solid fa-eye"></i> View Full Details
-                        </span>
-                      )}
-                    </td>
-                  )}
+                  {/* YAHAN SE CHANGES HAIN: Button hamesha dikhega (td is always there) */}
+                  <td>
+                    {isAllowedDomain &&
+                    index < 2 &&
+                    ![
+                      "not_started",
+                      "not_completed",
+                      "in_progress",
+                      "locked",
+                    ].includes(item?.status) ? (
+                      /* ACTIVE LINK: Jab domain allowed ho, index 2 se kam ho aur status active ho */
+                      <Link
+                        to={`/teacher/progress-student-lesson-quiz?lessonId=${item?.lesson_id}&studentId=${selectedStudents?.[0]}`}
+                        state={{ param: "/teacher/progress-and-score" }}
+                      >
+                        <i className="fa-solid fa-eye"></i> View Full Details
+                      </Link>
+                    ) : (
+                      /* DISABLED BUTTON: Button dikhega par click nahi hoga */
+                      <span
+                        className="view-details-disabled"
+                        style={{
+                          color: "#999",
+                          cursor: "not-allowed",
+                          opacity: 0.6,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "5px",
+                          pointerEvents: "none", // Isse click block ho jayega
+                        }}
+                      >
+                        <i className="fa-solid fa-eye"></i> View Full Details
+                      </span>
+                    )}
+                  </td>
                 </tr>
               ))}
               <tr>
@@ -659,7 +686,8 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                       : "Not Started"}
                   </div>
                 </td>
-                {!subjectWizeScoreData?.[0]?.summative_status ||
+                {/* working code comented by rajan 21-4-04-2026 */}
+                {/* {!subjectWizeScoreData?.[0]?.summative_status ||
                   (![
                     "not_started",
                     "not_completed",
@@ -680,10 +708,30 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                           subjectId: selectedCourses?.[0],
                         }}
                       >
-                        <i className="fa-solid fa-eye"></i> View Full Details
+                        <i className="fa-solid fa-eye"></i> View Full Details33
                       </Link>
                     </td>
-                  ))}
+                  ))} */}
+                <td>
+                  <span
+                    style={{
+                      color: "#b1b1b1", // Gray color for text and icon
+                      cursor: "not-allowed", // Not allowed cursor
+                      opacity: 0.6, // Grayout effect
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontWeight: "400",
+                      pointerEvents: "none", // Bilkul click nahi hoga
+                    }}
+                  >
+                    <i
+                      className="fa-solid fa-eye"
+                      style={{ color: "#b1b1b1" }}
+                    ></i>
+                    View Full Details
+                  </span>
+                </td>
               </tr>
             </tbody>
           ) : (
