@@ -12,11 +12,6 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
   const isAllowedDomain =
     teacherCurrentSubjectTaped === "Self Awareness" ||
     teacherCurrentSubjectTaped === "Interpersonal Relationships";
-  console.log(
-    teacherCurrentSubjectTaped,
-    "Scores by SubjectScores by Subject",
-    isAllowedDomain
-  );
 
   const dispatch = useDispatch();
   const currentLevel = localStorage.getItem("classLevel");
