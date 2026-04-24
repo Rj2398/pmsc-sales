@@ -156,11 +156,30 @@ const PricipalStudentprofile = () => {
                       <input
                         type="checkbox"
                         checked={selectedCourses.includes(item.id)}
+                        // onChange={() => {
+                        //   if (selectedCourses.includes(item.id)) {
+                        //     setSelectedCourses([]); // Unselect if already selected
+                        //   } else {
+                        //     setSelectedCourses([item.id]); // Select this student only
+                        //   }principalCurrentSubject
+                        // }}
+
                         onChange={() => {
                           if (selectedCourses.includes(item.id)) {
-                            setSelectedCourses([]); // Unselect if already selected
+                            // Unselect if already selected
+                            setSelectedCourses([]);
+
+                            // Optional: Agar unselect hone par storage se hatana hai toh yeh use karo
+                            localStorage.removeItem("principalCurrentSubject");
                           } else {
-                            setSelectedCourses([item.id]); // Select this student only
+                            // Select this subject only
+                            setSelectedCourses([item.id]);
+
+                            // 🔴 NAYA LOGIC: Local Storage me value set karna
+                            localStorage.setItem(
+                              "principalCurrentSubject",
+                              String(item.name)
+                            );
                           }
                         }}
                       />
@@ -240,9 +259,13 @@ const PricipalStudentprofile = () => {
                         studentProfileInfo?.baseline_status == "not_started" &&
                         "inactive"
                       } ${
-                        ["not_completed", "in_progress", "review", "retake"].includes(
-                          studentProfileInfo?.baseline_status
-                        ) && "review"
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "review",
+                          "retake",
+                        ].includes(studentProfileInfo?.baseline_status) &&
+                        "review"
                       }`}
                     >
                       {studentProfileInfo?.baseline_status
@@ -306,9 +329,13 @@ const PricipalStudentprofile = () => {
                           studentProfileInfo?.lesson_overall_status
                         ) && "inactive"
                       } ${
-                        ["not_completed", "in_progress", "retake", "review"].includes(
-                          studentProfileInfo?.lesson_overall_status
-                        ) && "review"
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "retake",
+                          "review",
+                        ].includes(studentProfileInfo?.lesson_overall_status) &&
+                        "review"
                       }`}
                     >
                       {studentProfileInfo?.lesson_overall_status
@@ -373,7 +400,7 @@ const PricipalStudentprofile = () => {
                             "not_completed",
                             "in_progress",
                             "review",
-                            "retake"
+                            "retake",
                           ].includes(lesson?.status) && "review"
                         }`}
                       >
@@ -536,7 +563,7 @@ const PricipalStudentprofile = () => {
                               "not_completed",
                               "in_progress",
                               "retake",
-                              "review"
+                              "review",
                             ].includes(studentProfileInfo?.summative_status)
                               ? "#F28100"
                               : "#16a34a",
@@ -557,9 +584,13 @@ const PricipalStudentprofile = () => {
                           studentProfileInfo?.summative_status
                         ) && "inactive"
                       } ${
-                        ["not_completed", "in_progress", "retake", "review"].includes(
-                          studentProfileInfo?.summative_status
-                        ) && "review"
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "retake",
+                          "review",
+                        ].includes(studentProfileInfo?.summative_status) &&
+                        "review"
                       }`}
                     >
                       {studentProfileInfo?.summative_status

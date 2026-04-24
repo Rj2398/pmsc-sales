@@ -26,6 +26,11 @@ import {
 import axios from "axios";
 
 const PrincipalProgressAndScore = () => {
+  const principalTapedSub = localStorage.getItem("principalCurrentSubject");
+  const isAllowedDomain =
+    principalTapedSub === "Self Awareness" ||
+    principalTapedSub === "Interpersonal Relationships";
+
   const dispatch = useDispatch();
   const currentLevel = localStorage.getItem("classLevel");
   const { subjectList, classList, studentList } = useSelector(
