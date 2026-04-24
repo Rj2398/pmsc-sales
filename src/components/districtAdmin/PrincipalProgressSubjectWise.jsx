@@ -206,11 +206,25 @@ const PrincipalProgressSubjectWise = ({
                     <input
                       type="checkbox"
                       checked={selectedCourses.includes(item.id)}
+                      // onChange={() => {
+                      //   if (selectedCourses.includes(item.id)) {
+                      //     setSelectedCourses([]);
+                      //   } else {
+                      //     setSelectedCourses([item.id]);
+                      //   }
+                      // }}
                       onChange={() => {
                         if (selectedCourses.includes(item.id)) {
                           setSelectedCourses([]);
+                          localStorage.removeItem("principalCurrentSubject");
                         } else {
                           setSelectedCourses([item.id]);
+
+                          // YAHAN CHANGE KIYA HAI: Safe String Conversion
+                          localStorage.setItem(
+                            "principalCurrentSubject",
+                            String(item.name)
+                          );
                         }
                       }}
                     />
