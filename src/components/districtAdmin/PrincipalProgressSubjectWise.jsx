@@ -106,7 +106,7 @@ const PrincipalProgressSubjectWise = ({
     <div className="my-subjects">
       <div className="top-head">
         <div className="top-head-in">
-          <h1 className="mb-0"> Scores by Student & Subject11 </h1>
+          <h1 className="mb-0"> Scores by Student & Subject </h1>
         </div>
         <div className="influ-btns ms-auto">
           {/* Student Dropdown */}

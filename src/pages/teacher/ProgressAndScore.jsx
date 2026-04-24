@@ -14,6 +14,9 @@ import { getReportDownloadData } from "../../redux/slices/authSlice";
 // import { ReportDownload } from "../../components/teacher/ReportPdfDowload";
 
 const ProgressAndScore = () => {
+  const teacherCurrentSubjectTaped = localStorage.getItem(
+    "teacherCurrentSubject"
+  );
   const dispatch = useDispatch();
   const currentLevel = localStorage.getItem("classLevel");
   // const { reportData, reportLoading } = useSelector((state) => state.auth);
