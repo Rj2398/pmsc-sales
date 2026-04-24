@@ -8,9 +8,16 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
   const teacherCurrentSubjectTaped = localStorage.getItem(
     "teacherCurrentSubject"
   );
+
   const isAllowedDomain =
     teacherCurrentSubjectTaped === "Self Awareness" ||
     teacherCurrentSubjectTaped === "Interpersonal Relationships";
+  console.log(
+    teacherCurrentSubjectTaped,
+    "Scores by SubjectScores by Subject",
+    isAllowedDomain
+  );
+
   const dispatch = useDispatch();
   const currentLevel = localStorage.getItem("classLevel");
 
@@ -595,7 +602,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                       "not_started",
                       "not_completed",
                       "in_progress",
-                      "locked",
+                      // "locked",
                     ].includes(item?.status) ? (
                       /* ACTIVE LINK: Jab domain allowed ho, index 2 se kam ho aur status active ho */
                       <Link
