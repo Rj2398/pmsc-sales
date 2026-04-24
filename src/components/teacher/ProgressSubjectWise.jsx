@@ -5,6 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTeacherSubjectQuizScore } from "../../redux/slices/teacher/progressSlice";
 
 const ProgressSubjectWise = ({ subjectList, classList }) => {
+  const teacherCurrentSubjectTaped = localStorage.getItem(
+    "teacherCurrentSubject"
+  );
+  const isAllowedDomain =
+    teacherCurrentSubjectTaped === "Self Awareness" ||
+    teacherCurrentSubjectTaped === "Interpersonal Relationships";
   const dispatch = useDispatch();
   const currentLevel = localStorage.getItem("classLevel");
 
@@ -131,9 +137,18 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                       checked={selectedCourses.includes(item.id)}
                       onChange={() => {
                         if (selectedCourses.includes(item.id)) {
+                          // Unselect if already selected
                           setSelectedCourses([]);
+                          localStorage.removeItem("teacherCurrentSubject"); // Data clear karne ke liye
                         } else {
+                          // Select this subject only
                           setSelectedCourses([item.id]);
+
+                          // NAYA LOGIC: Teacher ka subject save karne ke liye
+                          localStorage.setItem(
+                            "teacherCurrentSubject",
+                            String(item.name)
+                          );
                         }
                       }}
                     />
@@ -312,7 +327,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                             "not_completed",
                             "in_progress",
                             "retake",
-                            "review"
+                            "review",
                           ].includes(subjectWizeScoreData?.[0]?.baseline_status)
                             ? "#F28100"
                             : "#16a34a",
@@ -334,9 +349,13 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         !subjectWizeScoreData?.[0]?.baseline_status) &&
                       "inactive"
                     } ${
-                      ["not_completed", "in_progress", "review", "retake"].includes(
-                        subjectWizeScoreData?.[0]?.baseline_status
-                      ) && "review"
+                      [
+                        "not_completed",
+                        "in_progress",
+                        "review",
+                        "retake",
+                      ].includes(subjectWizeScoreData?.[0]?.baseline_status) &&
+                      "review"
                     }`}
                   >
                     {subjectWizeScoreData?.[0]?.baseline_status
@@ -355,6 +374,12 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                   ].includes(subjectWizeScoreData?.[0]?.baseline_status) && (
                     <td>
                       <Link
+                        onClick={(e) => e.preventDefault()}
+                        style={{
+                          color: "#999",
+                          cursor: "not-allowed",
+                          opacity: 0.6,
+                        }}
                         to="/teacher/progress-student-baseline-assessment"
                         state={{
                           studentId: selectedStudents?.[0],
@@ -390,7 +415,13 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         !subjectWizeScoreData?.[0]?.baseline_status) &&
                       "inactive"
                     } ${
-                      ["not_started", "not_completed", "in_progress", "review", "retake"].includes(
+                      [
+                        "not_started",
+                        "not_completed",
+                        "in_progress",
+                        "review",
+                        "retake",
+                      ].includes(
                         subjectWizeScoreData?.[0]?.lesson_overall_status
                       ) && "review"
                     }`}
@@ -405,7 +436,7 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
               </tr>
 
               {/* <!-- LESSONS-DROPDOWN-LIST --> */}
-              {subjectWizeScoreData?.[0]?.lesson_wise?.map((item, index) => (
+              {/* {subjectWizeScoreData?.[0]?.lesson_wise?.map((item, index) => (
                 <tr
                   className="lessons-list"
                   style={{ display: lessonToggle ? "" : "none" }}
@@ -419,17 +450,18 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                       <div className="progress">
                         <div
                           className="progress-bar"
-                          style={{ width: `${item?.percentage || 0}%`,
-                          backgroundColor: [
-                            "not_started",
-                            "not_completed",
-                            "in_progress",
-                            "retake",
-                            "review"
-                          ].includes(item?.status)
-                            ? "#F28100"
-                            : "#16a34a",
-                         }}
+                          style={{
+                            width: `${item?.percentage || 0}%`,
+                            backgroundColor: [
+                              "not_started",
+                              "not_completed",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item?.status)
+                              ? "#F28100"
+                              : "#16a34a",
+                          }}
                           role="progressbar"
                           aria-label="Basic example"
                           aria-valuenow="75"
@@ -445,9 +477,12 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         (item?.status == "locked" || !item?.status) &&
                         "inactive"
                       } ${
-                        ["not_completed", "in_progress", "review", "retake"].includes(
-                          item?.status
-                        ) && "review"
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "review",
+                          "retake",
+                        ].includes(item?.status) && "review"
                       } ${item?.status == "not_started" && "inactive"}`}
                     >
                       {item?.status
@@ -467,8 +502,97 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         to={`/teacher/progress-student-lesson-quiz?lessonId=${item?.lesson_id}&studentId=${selectedStudents?.[0]}`}
                         state={{ param: "/teacher/progress-and-score" }}
                       >
-                        <i className="fa-solid fa-eye"></i> View Full Details
+                        <i className="fa-solid fa-eye"></i> View Full Details22
                       </Link>
+                    </td>
+                  )}
+                </tr>
+              ))} */}
+
+              {subjectWizeScoreData?.[0]?.lesson_wise?.map((item, index) => (
+                <tr
+                  className="lessons-list"
+                  style={{ display: lessonToggle ? "" : "none" }}
+                  key={index}
+                >
+                  <td>&nbsp;</td>
+                  <td>{item?.lesson_name}</td>
+                  <td>
+                    <div className="prog">
+                      <span> {item?.percentage || 0}% </span>
+                      <div className="progress">
+                        <div
+                          className="progress-bar"
+                          style={{
+                            width: `${item?.percentage || 0}%`,
+                            backgroundColor: [
+                              "not_started",
+                              "not_completed",
+                              "in_progress",
+                              "retake",
+                              "review",
+                            ].includes(item?.status)
+                              ? "#F28100"
+                              : "#16a34a",
+                          }}
+                          role="progressbar"
+                          aria-label="Basic example"
+                          aria-valuenow="75"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      className={`status ${
+                        (item?.status == "locked" || !item?.status) &&
+                        "inactive"
+                      } ${
+                        [
+                          "not_completed",
+                          "in_progress",
+                          "review",
+                          "retake",
+                        ].includes(item?.status) && "review"
+                      } ${item?.status == "not_started" && "inactive"}`}
+                    >
+                      {item?.status
+                        ?.replace(/_/g, " ")
+                        .replace(/\b\w/g, (char) => char.toUpperCase()) ||
+                        "Not Started"}
+                    </div>
+                  </td>
+
+                  {/* ---- BUTTON VISIBILITY LOGIC (NAYA LOGIC YAHAN HAI) ---- */}
+                  {![
+                    "not_started",
+                    "not_completed",
+                    "in_progress",
+                    "locked",
+                  ].includes(item?.status) && (
+                    <td>
+                      {isAllowedDomain && index < 2 ? (
+                        /* ACTIVE STATE: Sirf tab dikhega jab allowed domain true ho aur pehle 2 lesson ho */
+                        <Link
+                          to={`/teacher/progress-student-lesson-quiz?lessonId=${item?.lesson_id}&studentId=${selectedStudents?.[0]}`}
+                          state={{ param: "/teacher/progress-and-score" }}
+                        >
+                          <i className="fa-solid fa-eye"></i> View Full Details
+                        </Link>
+                      ) : (
+                        /* DISABLED STATE: Baaki sabhi cases me button grey/disable rahega */
+                        <span
+                          style={{
+                            color: "#999", // Grey color disable dikhane ke liye
+                            cursor: "not-allowed", // Cursor change karega
+                            opacity: 0.7,
+                          }}
+                        >
+                          <i className="fa-solid fa-eye"></i> View Full Details
+                        </span>
+                      )}
                     </td>
                   )}
                 </tr>
@@ -493,7 +617,9 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                             "not_started",
                             "not_completed",
                             "in_progress",
-                            "locked", "review", "retake",
+                            "locked",
+                            "review",
+                            "retake",
                           ].includes(
                             subjectWizeScoreData?.[0]?.summative_status
                           )
@@ -517,9 +643,13 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                         !subjectWizeScoreData?.[0]?.summative_status) &&
                       "inactive"
                     }  ${
-                      ["not_completed", "in_progress", "review", "retake"].includes(
-                        subjectWizeScoreData?.[0]?.summative_status
-                      ) && "review"
+                      [
+                        "not_completed",
+                        "in_progress",
+                        "review",
+                        "retake",
+                      ].includes(subjectWizeScoreData?.[0]?.summative_status) &&
+                      "review"
                     }`}
                   >
                     {subjectWizeScoreData?.[0]?.summative_status
@@ -538,6 +668,12 @@ const ProgressSubjectWise = ({ subjectList, classList }) => {
                   ].includes(subjectWizeScoreData?.[0]?.summative_status) && (
                     <td>
                       <Link
+                        onClick={(e) => e.preventDefault()}
+                        style={{
+                          color: "#999",
+                          cursor: "not-allowed",
+                          opacity: 0.6,
+                        }}
                         to="/teacher/progress-student-summative-assessment"
                         state={{
                           studentId: selectedStudents?.[0],
